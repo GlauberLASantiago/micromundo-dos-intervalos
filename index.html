@@ -325,6 +325,7 @@ function loadSong(id){
  els.start.value=start.value;els.rhythm.value=String(song.rhythm);els.code.value=song.tokens.join(' ');
  lastCompletedTokens=[...song.tokens];refreshKeyInfo();prepare(null,false);
 }
+function repeatsPrevious(notes,index){return index>0 && notes[index].midi===notes[index-1].midi && name(notes[index])===name(notes[index-1]);}
 function draw(){
  refreshMelodyContext();rhythmView();const c=els.canvas,ctx=c.getContext('2d'),w=c.width,h=c.height,l=72,r=32,t=26,b=48;
  ctx.clearRect(0,0,w,h);ctx.fillStyle='white';ctx.fillRect(0,0,w,h);
@@ -345,7 +346,7 @@ function draw(){
   ctx.fillStyle=i===activeIndex?'#E8871E':'#783F04';
   ctx.beginPath();ctx.arc(x,y,i===activeIndex?8:6,0,2*Math.PI);ctx.fill();
   ctx.fillStyle='#783F04';ctx.textAlign='left';ctx.textBaseline='bottom';
-  ctx.font='13px Inter, sans-serif';ctx.fillText(name(n),x+12,y-10);
+  ctx.font='13px Inter, sans-serif';if(!repeatsPrevious(all,i))ctx.fillText(name(n),x+4,y-10);
  });
  if(all.length){
   const position=turtlePosition || {time:all[0].start,midi:all[0].midi};
@@ -355,7 +356,7 @@ function draw(){
   ctx.textAlign='center';ctx.textBaseline='middle';ctx.translate(tx,ty);ctx.scale(-1,1);ctx.fillText('🐢',0,0);
   ctx.restore();
  }
- els.notes.innerHTML=all.map((n,i)=>`<strong>${i?i+'. ':''}${name(n)}</strong>${i?' ('+n.interval+')':''}`).join(' → ')
+ els.notes.innerHTML=all.map((n,i)=>`<strong>${i?i+'. ':''}${repeatsPrevious(all,i)?'':name(n)}</strong>${i?' ('+n.interval+')':''}`).join(' → ')
 }
 document.getElementById('song').addEventListener('change',event=>loadSong(event.target.value));
 document.getElementById('play').addEventListener('click',play);
