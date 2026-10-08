@@ -107,5 +107,27 @@ async function test(label, check) {await check(app());passed++;console.log('OK '
   a.get('code').value='a2ma a2ma';
   await a.run('step()');assert.equal(a.run('cursor'),1);await a.run('step()');assert.equal(a.run('cursor'),2);
  });
+ await test('song references follow the displayed melody and return when it is restored', a => {
+  a.run("challengeOn.checked=false;els.code.value=odeTokens.join(' ');prepare()");
+  assert.match(a.get('demoContext').textContent,/Ode à Alegria/);
+  assert.match(a.get('investigation').innerHTML,/Ode à Alegria/);
+  a.input('a2ma ');
+  assert.equal(a.get('demoContext').textContent,'');
+  assert.doesNotMatch(a.get('investigation').innerHTML,/Ode à Alegria/);
+  a.run("els.code.value=odeTokens.join(' ').toUpperCase().replaceAll(' ', '  ');prepare()");
+  assert.match(a.get('demoContext').textContent,/Ode à Alegria/);
+  a.get('newChallenge').dispatchEvent({type:'click'});
+  assert.equal(a.get('demoContext').textContent,'');
+  assert.doesNotMatch(a.get('investigation').innerHTML,/Ode à Alegria/);
+ });
+ await test('song caption names the actual starting note and disappears for rejected music', a => {
+  a.run("challengeOn.checked=false;els.start.value=JSON.stringify({letter:3,alt:1,octave:4,midi:66});els.code.value=odeTokens.join(' ');prepare()");
+  assert.match(a.get('demoContext').textContent,/Fá♯4/);
+  a.run("els.start.value=JSON.stringify({letter:0,alt:0,octave:4,midi:60});prepare()");
+  assert.match(a.get('demoContext').textContent,/Dó4/);
+  a.get('challengeOn').checked=true;a.get('challengeOn').dispatchEvent({type:'change'});
+  assert.equal(a.get('demoContext').textContent,'');
+  assert.doesNotMatch(a.get('investigation').innerHTML,/Ode à Alegria/);
+ });
  console.log(`${passed} tests passed.`);
 })().catch(error => {console.error(error);process.exitCode=1;});
