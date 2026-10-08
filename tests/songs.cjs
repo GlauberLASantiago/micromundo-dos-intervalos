@@ -1,0 +1,51 @@
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const path=require('node:path');
+const {app}=require('./challenges.cjs');
+function score(file){
+ const xml=fs.readFileSync(path.join(__dirname,'..',file),'utf8');
+ const divisions=Number(xml.match(/<divisions>(\d+)<\/divisions>/)[1]);
+ const events=[...xml.matchAll(/<note\b[^>]*>([\s\S]*?)<\/note>/g)].map(([,note])=>{
+  const dur=Number(note.match(/<duration>(\d+)<\/duration>/)[1])/divisions;
+  if(/<rest\b/.test(note))return {rest:true,dur};
+  const step=note.match(/<step>([A-G])<\/step>/)[1];
+  const octave=Number(note.match(/<octave>(\d+)<\/octave>/)[1]);
+  const alt=Number(note.match(/<alter>(-?\d+)<\/alter>/)?.[1]||0);
+  const letter='CDEFGAB'.indexOf(step);
+  return {letter,alt,octave,midi:12*(octave+1)+[0,2,4,5,7,9,11][letter]+alt,dur};
+ });
+ let time=0;const notes=[];
+ for(const event of events){if(!event.rest)notes.push({...event,start:time});time+=event.dur;}
+ return {notes,total:time};
+}
+(async()=>{
+ const a=app(false);
+ assert.equal(a.get('song').value,'marcha');assert.equal(a.run('melody.length'),24);
+ assert.match(a.get('demoContext').textContent,/Marcha Soldado/);
+ a.run('let waits=[];waitRemaining=async(ms)=>{waits.push(ms);return true};tone=()=>{noteCount++}');
+ for(const [id,file,count] of [['marcha','marcha-soldado.musicxml',24],['cravo','o-cravo-brigou-com-a-rosa.musicxml',32]]){
+  a.get('song').value=id;a.get('song').dispatchEvent({type:'change',target:a.get('song')});
+  const expected=score(file);
+  const actual=JSON.parse(a.run('JSON.stringify(melody.map(({letter,alt,octave,midi,dur,start})=>({letter,alt,octave,midi,dur,start})))'));
+  assert.equal(actual.length,count);assert.deepEqual(actual,expected.notes);
+  assert.equal(a.run('challengeOn.checked'),false);
+  assert.equal(a.get('song').value,id);
+  const title=id==='marcha'?'Marcha Soldado':'O Cravo Brigou com a Rosa';
+  assert.ok(a.get('investigation').innerHTML.includes(title));
+  assert.doesNotMatch(a.get('demoContext').textContent,/Ode à Alegria/);
+  a.run('waits=[]');
+  const previous=a.run('noteCount');await a.run('play()');assert.equal(a.run('noteCount')-previous,count);
+  const waits=JSON.parse(a.run('JSON.stringify(waits)'));
+  const msPerBeat=a.run('60000/tempo()');
+  if(id==='cravo')assert.equal(waits[0],2*msPerBeat);
+  assert.equal(waits.at(-1),2*msPerBeat);
+  const tail=a.run('rhythms[+els.rhythm.value][2].trailingRest');
+  const last=actual.at(-1);assert.equal(last.start+last.dur+tail,expected.total);
+  a.run('waits=[]');
+  console.log('OK '+title+': every pitch, duration, onset and pause matches MusicXML.');
+ }
+ a.run("loadSong('ode')");assert.equal(a.run('melody.length'),15);
+ assert.match(a.get('demoContext').textContent,/Ode à Alegria/);
+ a.input('a2ma ');assert.equal(a.get('song').value,'');assert.equal(a.get('demoContext').textContent,'');
+ console.log('OK initial selection, song switching and contextual captions.');
+})().catch(err=>{console.error(err);process.exitCode=1;});

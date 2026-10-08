@@ -5,7 +5,7 @@ const vm = require('node:vm');
 const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
 const script = html.match(/<script>([\s\S]*?)<\/script>/)[1];
 let passed = 0;
-function app() {
+function app(reset=true) {
   const elements = new Map();
   const canvas = new Proxy({}, {get: (obj, key) => obj[key] ?? (() => {})});
   function element(id = '') {
@@ -26,12 +26,13 @@ function app() {
   const context = vm.createContext({document: {getElementById: get, querySelector: get, createElement: () => element()},
     console, Event: class {constructor(type) {this.type = type;}}, window: {}, cancelAnimationFrame() {}, requestAnimationFrame() {return 1;}, performance: {now: () => 0}});
   vm.runInContext(script, context);
-  vm.runInContext(`let errorCount=0,noteCount=0;errorSound=()=>{errorCount++};tone=()=>{noteCount++};glide=async()=>true;
-    els.start.value=JSON.stringify({letter:0,alt:0,octave:4,midi:60});els.code.value='';challengeOn.checked=true;prepare();`, context);
+  vm.runInContext(`let errorCount=0,noteCount=0;errorSound=()=>{errorCount++};tone=()=>{noteCount++};glide=async()=>true;`, context);
+  if(reset)vm.runInContext(`els.start.value=JSON.stringify({letter:0,alt:0,octave:4,midi:60});els.code.value='';els.rhythm.value='0';lastCompletedTokens=[];challengeOn.checked=true;prepare();`, context);
   return {run: code => vm.runInContext(code, context), get, input(value) {get('code').value=value;get('code').dispatchEvent({type:'input'});}};
 }
 async function test(label, check) {await check(app());passed++;console.log('OK '+label);}
-(async () => {
+module.exports={app};
+if(require.main===module)(async () => {
  await test('preserves valid prefix and identifies offending interval', a => {
   a.input('a2ma a2me ');
   assert.equal(a.run('melody.length'),2);assert.match(a.get('status').textContent,/posição 2/);

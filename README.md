@@ -49,7 +49,9 @@ O aplicativo oferece:
 - Padrões rítmicos predefinidos, incluindo sequências longas.
 - Controle de andamento.
 - Execução completa ou passo a passo.
-- Demonstração inicial com o tema da Nona Sinfonia de Beethoven.
+- Demonstração inicial com “Marcha Soldado”.
+- Seletor de músicas com “Marcha Soldado”, “O Cravo Brigou com a Rosa” e “Ode à Alegria”.
+- Notas, durações e pausas das duas cantigas preservadas a partir dos MusicXML fornecidos.
 - Desafios de composição utilizando notas diatônicas de diferentes armaduras de clave.
 - Verificação automática dos intervalos produzidos.
 - Avisos visuais e sonoros quando uma nota não respeita as condições do desafio.
@@ -101,4 +103,4 @@ O Tartaruga Musical integra um conjunto de iniciativas de desenvolvimento de rec
 
 ## Verificação da lógica
 
-Com Node.js instalado, execute `node tests/challenges.cjs` e `node tests/fm.cjs`. Os testes exercitam a validação, as missões e os eventos do aplicativo em um ambiente simulado; não verificam a reprodução audível no navegador.
+Com Node.js instalado, execute `node tests/challenges.cjs` e `node tests/fm.cjs` e `node tests/songs.cjs`. Os testes exercitam a validação, as missões e os eventos do aplicativo em um ambiente simulado; não verificam a reprodução audível no navegador.
