@@ -128,3 +128,7 @@ Há escalas maiores e menores naturais ascendentes e descendentes, incluindo a o
 Preencha o nome do aluno e clique em **Gerar relatório em PDF**. Na janela de impressão do navegador, selecione **Salvar como PDF**. O relatório contém o gráfico atual, os controles escolhidos, os intervalos, o resultado da missão e uma tabela de notas com início e duração em pulsos. A data e o horário usam America/Sao_Paulo. O rodapé traz o nome e o link do aplicativo. O relatório é preparado no navegador, sem enviar o nome do aluno a um servidor.
 
 Execute também `node tests/missions-report.cjs` para conferir as novas missões e o conteúdo do relatório. Esses testes não verificam o diálogo de impressão nem a aparência do PDF produzido pelo navegador.
+
+## Ritmo original das músicas
+
+Marcha Soldado, O Cravo Brigou com a Rosa e Ode à Alegria carregam automaticamente suas durações originais. As duas primeiras preservam as durações e pausas dos arquivos MusicXML; Ode mantém o padrão original da demonstração. A opção Ritmo original da música permite recuperar essas durações após experimentar outros ritmos, sem alterar as notas.

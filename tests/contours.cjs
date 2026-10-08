@@ -1,7 +1,7 @@
 const assert=require('node:assert/strict');const {app}=require('./challenges.cjs');const a=app(false);
 assert.equal(a.run('songs.filter(song=>song.math).length'),0);
 const contours=JSON.parse(a.run('JSON.stringify(songs.filter(song=>song.contour))'));assert.equal(contours.length,8);
-assert.equal(a.run('rhythms.length'),36);
+assert.equal(a.run('rhythms.length'),37);
 for(const song of contours){
  a.run(`loadSong(${JSON.stringify(song.id)})`);
  const notes=JSON.parse(a.run('JSON.stringify(melody)'));

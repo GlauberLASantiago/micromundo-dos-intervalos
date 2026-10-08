@@ -37,6 +37,11 @@ function transposeCravo(score){
  for(const [id,file,count] of [['marcha','marcha-soldado.musicxml',24],['cravo','o-cravo-brigou-com-a-rosa.musicxml',32]]){
   a.get('song').value=id;a.get('song').dispatchEvent({type:'change',target:a.get('song')});
   const source=id==='cravo'?transposeCravo(score(file)):score(file);
+  const original=JSON.parse(a.run('JSON.stringify(melody.map(({letter,alt,octave,midi,dur,start})=>({letter,alt,octave,midi,dur,start})))'));
+  assert.deepEqual(original,source.notes,'loading the song restores original MusicXML rhythm and pauses');
+  assert.equal(a.get('rhythm').value,String(a.run('rhythms.length-1')));
+  a.get('rhythm').value=String(a.run('classicRhythms.length'));
+  a.get('rhythm').dispatchEvent({type:'change'});
   const leading=id==='cravo'?2:0;
   const expected={notes:source.notes.map((note,i)=>({...note,dur:.5,start:leading+i*.5})),total:leading+source.notes.length*.5+1};
   const actual=JSON.parse(a.run('JSON.stringify(melody.map(({letter,alt,octave,midi,dur,start})=>({letter,alt,octave,midi,dur,start})))'));
@@ -72,6 +77,9 @@ function transposeCravo(score){
  }
  console.log('OK all added spacing options preserve the loaded melody.');
  a.run("loadSong('ode')");assert.equal(a.run('melody.length'),15);
+ assert.deepEqual(JSON.parse(a.run('JSON.stringify(melody.map(n=>n.dur))')),[1,1,1,1,1,1,1,1,1,1,1,1,1,1,2]);
+ a.get('rhythm').value=String(a.run('classicRhythms.length'));a.get('rhythm').dispatchEvent({type:'change'});
+ a.run("loadSong('ode')");assert.equal(a.run('melody.at(-1).dur'),2,'reloading restores original rhythm');
  assert.match(a.get('demoContext').textContent,/Ode à Alegria/);
  a.input('a2ma ');assert.equal(a.get('song').value,'');assert.equal(a.get('demoContext').textContent,'');
  console.log('OK initial selection, song switching and contextual captions.');

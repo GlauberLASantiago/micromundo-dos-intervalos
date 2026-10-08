@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict');const {app}=require('./challenges.cjs');const a=app(false);
-assert.deepEqual(JSON.parse(a.run('JSON.stringify(rhythms.slice(classicRhythms.length).map(pattern=>pattern[0]))')),['Uniforme','Quadrática','Logarítmica','Cossenoidal','Fibonacci (intervalos)','Aleatória (exemplo fixo)']);
+assert.deepEqual(JSON.parse(a.run('JSON.stringify(rhythms.slice(classicRhythms.length,classicRhythms.length+6).map(pattern=>pattern[0]))')),['Uniforme','Quadrática','Logarítmica','Cossenoidal','Fibonacci (intervalos)','Aleatória (exemplo fixo)']);
 assert.equal(a.run('classicRhythms.length'),30);
 a.run("loadSong('marcha')");
 const code=a.get('code').value,start=a.get('start').value,pitches=JSON.parse(a.run('JSON.stringify(melody.map(n=>n.midi))'));
@@ -20,6 +20,6 @@ assert.ok(sequences[2][2]-sequences[2][1]<sequences[2][1]-sequences[2][0]);
 assert.ok(sequences[3].every((duration,i,all)=>Math.abs(duration-all.at(-i-1))<1e-9));
 assert.deepEqual(sequences[4].slice(0,8),[.125,.125,.25,.375,.625,1,1.625,2.625]);assert.deepEqual(sequences[4].slice(0,8),sequences[4].slice(8,16));
 a.get('rhythm').value=String(a.run('classicRhythms.length')+5);a.get('rhythm').dispatchEvent({type:'change'});assert.deepEqual(JSON.parse(a.run('JSON.stringify(melody.map(n=>n.dur))')),sequences[5]);
-a.run("loadSong('cravo')");assert.equal(a.get('rhythm').value,String(a.run('classicRhythms.length')+5));assert.equal(a.run('melody[0].start'),2);
+a.run("loadSong('cravo')");assert.equal(a.get('rhythm').value,String(a.run('rhythms.length-1')));assert.equal(a.run('melody[0].start'),2);
 a.get('rhythm').value=String(a.run('classicRhythms.length'));a.get('rhythm').dispatchEvent({type:'change'});assert.equal(a.run('melody[0].start'),2);
 console.log('OK six spacing patterns, deterministic randomness, Fibonacci cycles, positive timing and unchanged pitches.');
