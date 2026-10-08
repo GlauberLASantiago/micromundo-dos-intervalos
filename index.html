@@ -464,7 +464,7 @@ function refreshMelodyContext(){
   contourInfo.innerHTML=(c.mode==='diatonic'?'Notas de Dó maior. ':'Notas cromáticas. ')+'Trechos seguidos na mesma altura formam uma única nota mais longa. O ritmo escolhido ajusta a duração desses trechos.'+
    `<svg class="contour-preview" viewBox="0 0 300 64" role="img" aria-label="Silhueta: ${song.title}"><polygon points="8,60 ${points} 292,60" fill="#e9d7b8"/><polyline points="${points}" fill="none" stroke="#783f04" stroke-width="2.5"/></svg>`;
  }else contourInfo.innerHTML='';
- document.getElementById('demoContext').textContent=song?'Demonstração: “'+song.title+'”'+(song.id==='ode'?', da Nona Sinfonia de Beethoven':'')+', a partir de '+name(melody[0])+'. ':'';
+ document.getElementById('demoContext').textContent=song?'Demonstração: “'+song.title+'”'+(song.id==='ode'?', da Nona Sinfonia de Beethoven':'')+', a partir de '+name(melody[0]||song.start)+'. ':'';
  document.getElementById('investigation').innerHTML='<b>Investigação:</b> '+(song?'A melodia de “'+song.title+'” está carregada. Altere um intervalo e escute o resultado.':'Construa uma melodia, altere um intervalo e escute o resultado.')+' Depois escolha outro ritmo e compare as duas versões.';
 }
 function loadSong(id){

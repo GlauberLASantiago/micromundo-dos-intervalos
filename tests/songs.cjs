@@ -28,6 +28,10 @@ function transposeCravo(score){
  const a=app(false);
  assert.equal(a.get('song').value,'marcha');assert.equal(a.run('melody.length'),24);
  assert.match(a.get('demoContext').textContent,/Marcha Soldado/);
+ assert.match(a.get('notes').innerHTML,/Sol4/);
+ assert.ok(a.canvasCalls.filter(call=>call.method==='arc').length>=24,'startup draws note points');
+ assert.ok(a.canvasCalls.some(call=>call.method==='setLineDash'&&call.args[0].length===2),'startup draws the melody path');
+ for(const call of a.canvasCalls.filter(call=>['arc','moveTo','lineTo'].includes(call.method)))assert.ok(call.args.every(Number.isFinite),'drawing coordinates are finite');
  a.get('rhythm').value=String(a.run('classicRhythms.length'));
  a.run('let waits=[];waitRemaining=async(ms)=>{waits.push(ms);return true};tone=()=>{noteCount++}');
  for(const [id,file,count] of [['marcha','marcha-soldado.musicxml',24],['cravo','o-cravo-brigou-com-a-rosa.musicxml',32]]){

@@ -7,7 +7,8 @@ const script = html.match(/<script>([\s\S]*?)<\/script>/)[1];
 let passed = 0;
 function app(reset=true) {
   const elements = new Map();
-  const canvas = new Proxy({}, {get: (obj, key) => obj[key] ?? (() => {})});
+  const canvasCalls = [];
+  const canvas = new Proxy({}, {get: (obj, key) => obj[key] ?? ((...args) => {canvasCalls.push({method:key,args});})});
   function element(id = '') {
     const listeners = {};
     const el = {id, value: '', checked: false, textContent: '', className: '', options: [], width: 900, height: 430,
@@ -23,12 +24,14 @@ function app(reset=true) {
   }
   function get(id) {if (!elements.has(id)) elements.set(id, element(id)); return elements.get(id);}
   get('challengeType').value = 'free'; get('keySig').value = '0'; get('tempo').value = '108';
+  // A textarea já contém a demonstração no HTML antes de executar o script.
+  get('code').value = html.match(/<textarea\b[^>]*id="code"[^>]*>([\s\S]*?)<\/textarea>/)[1];
   const context = vm.createContext({document: {getElementById: get, querySelector: get, createElement: () => element()},
     console, Event: class {constructor(type) {this.type = type;}}, window: {}, cancelAnimationFrame() {}, requestAnimationFrame() {return 1;}, performance: {now: () => 0}});
   vm.runInContext(script, context);
   vm.runInContext(`let errorCount=0,noteCount=0;errorSound=()=>{errorCount++};tone=()=>{noteCount++};glide=async()=>true;`, context);
   if(reset)vm.runInContext(`els.start.value=JSON.stringify({letter:0,alt:0,octave:4,midi:60});els.code.value='';els.rhythm.value='0';lastCompletedTokens=[];challengeOn.checked=true;prepare();`, context);
-  return {run: code => vm.runInContext(code, context), get, input(value) {get('code').value=value;get('code').dispatchEvent({type:'input'});}};
+  return {run: code => vm.runInContext(code, context), get, canvasCalls, input(value) {get('code').value=value;get('code').dispatchEvent({type:'input'});}};
 }
 async function test(label, check) {await check(app());passed++;console.log('OK '+label);}
 module.exports={app};
