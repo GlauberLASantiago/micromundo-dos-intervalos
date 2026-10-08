@@ -28,6 +28,7 @@ function transposeCravo(score){
  const a=app(false);
  assert.equal(a.get('song').value,'marcha');assert.equal(a.run('melody.length'),24);
  assert.match(a.get('demoContext').textContent,/Marcha Soldado/);
+ a.get('rhythm').value=String(a.run('classicRhythms.length'));
  a.run('let waits=[];waitRemaining=async(ms)=>{waits.push(ms);return true};tone=()=>{noteCount++}');
  for(const [id,file,count] of [['marcha','marcha-soldado.musicxml',24],['cravo','o-cravo-brigou-com-a-rosa.musicxml',32]]){
   a.get('song').value=id;a.get('song').dispatchEvent({type:'change',target:a.get('song')});
@@ -61,11 +62,11 @@ function transposeCravo(score){
  rhythmApp.run("loadSong('cravo')");
  const originalCode=rhythmApp.get('code').value,originalStart=rhythmApp.get('start').value;
  for(let index=0;index<6;index++){
-  rhythmApp.get('rhythm').value=String(index);rhythmApp.get('rhythm').dispatchEvent({type:'change'});
+  rhythmApp.get('rhythm').value=String(rhythmApp.run('classicRhythms.length')+index);rhythmApp.get('rhythm').dispatchEvent({type:'change'});
   assert.equal(rhythmApp.get('code').value,originalCode);assert.equal(rhythmApp.get('start').value,originalStart);
   assert.equal(rhythmApp.get('song').value,'cravo');
  }
- console.log('OK all six spacing options preserve the loaded melody.');
+ console.log('OK all added spacing options preserve the loaded melody.');
  a.run("loadSong('ode')");assert.equal(a.run('melody.length'),15);
  assert.match(a.get('demoContext').textContent,/Ode à Alegria/);
  a.input('a2ma ');assert.equal(a.get('song').value,'');assert.equal(a.get('demoContext').textContent,'');

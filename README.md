@@ -48,11 +48,11 @@ O aplicativo oferece:
 - Controle de reverberação de 0% a 100%, inicialmente em 25%, ajustável durante a reprodução.
 - Representação gráfica do percurso melódico.
 - Tartaruga animada que se desloca entre as notas.
-- Seis espaçamentos: Uniforme, Quadrática, Logarítmica, Cossenoidal, Fibonacci (intervalos) e Aleatória (exemplo fixo). A troca altera apenas os tempos, preservando as notas e o código.
+- Trinta padrões rítmicos gerais e seis espaçamentos: Uniforme, Quadrática, Logarítmica, Cossenoidal, Fibonacci (intervalos) e Aleatória (exemplo fixo). A troca altera apenas os tempos, preservando as notas e o código.
 - Controle de andamento.
 - Execução completa ou passo a passo.
 - Demonstração inicial com “Marcha Soldado”.
-- Seletor de músicas com “Marcha Soldado”, “O Cravo Brigou com a Rosa” e “Ode à Alegria”. O seletor de ritmos contém apenas espaçamentos e não carrega músicas.
+- Seletor de músicas com “Marcha Soldado”, “O Cravo Brigou com a Rosa” e “Ode à Alegria”. O seletor de ritmos contém padrões gerais e espaçamentos, sem carregar músicas.
 - Notas e pausas das duas cantigas importadas dos MusicXML fornecidos; os tempos entre as notas seguem o espaçamento escolhido. “O Cravo Brigou com a Rosa” é apresentado um tom abaixo do original, em Si♭ maior, começando em Fá4; o MusicXML de referência permanece na tonalidade original.
 - Desafios de composição utilizando notas diatônicas de diferentes armaduras de clave.
 - Verificação automática dos intervalos produzidos.
@@ -105,22 +105,16 @@ O Tartaruga Musical integra um conjunto de iniciativas de desenvolvimento de rec
 
 ## Verificação da lógica
 
-Com Node.js instalado, execute `node tests/challenges.cjs`, `node tests/fm.cjs`, `node tests/songs.cjs` `node tests/math-melodies.cjs` e `node tests/spacing.cjs`. Os testes exercitam a validação, as missões e os eventos do aplicativo em um ambiente simulado; não verificam a reprodução audível no navegador.
+Com Node.js instalado, execute `node tests/challenges.cjs`, `node tests/fm.cjs`, `node tests/songs.cjs` `node tests/contours.cjs` e `node tests/spacing.cjs`. Os testes exercitam a validação, as missões e os eventos do aplicativo em um ambiente simulado; não verificam a reprodução audível no navegador.
 
-## Melodias matemáticas
+## Contornos de paisagens e objetos
 
-As 36 funções solicitadas estão no seletor de músicas, cada uma com duas versões (72 exemplos): diatônica em Dó maior e cromática em relação a Dó maior. Marcha Soldado continua sendo a música inicial.
+O seletor inclui Montanhas, Vale entre montanhas, Ilha, Prédios, Castelo, Dunas, Ponte em arco e Veleiro. Cada exemplo apresenta uma prévia da silhueta usada para criar a melodia. Há contornos diatônicos em Dó maior e outros cromáticos.
 
-Cada curva é amostrada em 48 pontos do domínio indicado na interface. Os valores são normalizados e arredondados para notas: a versão diatônica usa a escala de Dó maior entre Dó4 e Dó6; a cromática usa semitons entre Dó♯4 e Dó6. Os exemplos são aproximações musicais discretas da curva, com espaçamento Uniforme por padrão (meio pulso por nota). É possível editar os intervalos e experimentar outros ritmos.
+As silhuetas são amostradas e convertidas em alturas. Amostras consecutivas com a mesma altura são reunidas em uma única nota, sem comandos de repetição. A largura do trecho é preservada na duração dessa nota; o padrão rítmico escolhido ajusta essas durações.
 
-Fibonacci usa 16 termos (F₀ a F₁₅) e a conversão ln(1 + Fₙ) antes da normalização para distribuir seu crescimento pelas alturas. A tangente usa um domínio sem assíntotas. A função de Weierstrass é uma aproximação finita de sete termos. Os parâmetros escolhidos para as distribuições e as demais curvas aparecem junto da fórmula na interface.
+## Ritmos e espaçamentos
 
-As definições de [Bessel J₀](https://dlmf.nist.gov/10.2.E2) e da [função de erro Erf](https://dlmf.nist.gov/7.2) seguem a DLMF do NIST; o app calcula aproximações numéricas.
+Os 30 padrões rítmicos gerais foram preservados. Não há opções de ritmo que carreguem músicas ou funções. Ao final do menu estão Uniforme, Quadrática, Logarítmica, Cossenoidal, Fibonacci (intervalos) e Aleatória (exemplo fixo). Todas as opções alteram apenas os tempos, preservando as notas escritas e a nota inicial.
 
-Os testes das melodias matemáticas verificam as 72 sequências, os intervalos, a classificação diatônica ou cromática, valores de referência das funções especiais e a alternância entre exemplos.
-
-## Espaçamentos
-
-A escolha em Ritmo pronto modifica apenas a distância no tempo entre notas. O espaçamento selecionado também é mantido ao carregar outra música. As pausas iniciais e finais dos exemplos permanecem preservadas.
-
-Uniforme usa meio pulso por nota. Quadrática e Logarítmica aumentam os espaçamentos ao longo da sequência, de 0,25 a 1,25 pulsos; Cossenoidal varia suavemente entre esses limites, começando e terminando com espaçamentos menores. Fibonacci repete o ciclo 1, 1, 2, 3, 5, 8, 13, 21 dividido por 8. Aleatória usa uma sequência determinística de espaçamentos entre 0,25 e 1,25 pulsos, reproduzida sempre da mesma maneira.
+Uniforme usa meio pulso por nota. Quadrática e Logarítmica aumentam os espaçamentos ao longo da sequência, de 0,25 a 1,25 pulsos; Cossenoidal varia suavemente entre esses limites. Fibonacci repete o ciclo 1, 1, 2, 3, 5, 8, 13, 21 dividido por 8. Aleatória usa sempre a mesma sequência determinística. Nos contornos, esses valores são multiplicados pela largura do trecho agrupado.
