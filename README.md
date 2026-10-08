@@ -60,9 +60,11 @@ Além da exploração livre, o aplicativo permite realizar desafios de construç
 
 O estudante pode selecionar uma armadura de clave e criar melodias utilizando exclusivamente as notas pertencentes à coleção diatônica correspondente.
 
-Também pode enfrentar desafios que estabelecem condições para a quantidade de notas ou exigem o retorno à nota inicial.
+As missões exigem exatamente 4 ou 8 notas, contando a nota inicial. Na missão de retorno, a oitava e última nota deve coincidir com a inicial em grafia e oitava. Quantidades maiores não concluem a missão.
 
-Quando um comando produz uma nota que não atende às condições estabelecidas, o aplicativo apresenta uma mensagem explicativa e emite um sinal sonoro de erro.
+A restrição diatônica considera a grafia da armadura, e não apenas a equivalência sonora entre notas enarmônicas.
+
+Comandos completos são validados imediatamente. Prefixos ainda em edição aguardam sua conclusão; espaço, Enter, saída do campo ou reprodução finalizam a validação. Quando um comando é inválido, o aplicativo indica o primeiro erro e preserva as notas válidas anteriores no gráfico. O aviso sonoro ocorre uma vez por erro e volta a ocorrer se o erro reaparecer após uma correção. Tocar e avançar uma nota verificam todo o texto antes de reproduzir a melodia.
 
 Essas restrições funcionam como elementos para a investigação musical, incentivando o estudante a experimentar diferentes soluções.
 
@@ -96,3 +98,7 @@ A reprodução sonora utiliza recursos de áudio do próprio navegador. Algumas 
 ## Desenvolvimento
 
 O Tartaruga Musical integra um conjunto de iniciativas de desenvolvimento de recursos educacionais voltados à experimentação, à criação e à investigação de práticas pedagógicas mediadas por tecnologias digitais, especialmente no campo
+
+## Verificação da lógica
+
+Com Node.js instalado, execute `node tests/challenges.cjs`. Os testes exercitam a validação, as missões e os eventos do aplicativo em um ambiente simulado; não verificam a reprodução audível no navegador.

@@ -53,7 +53,7 @@ summary.rhythmTitle:focus-visible{outline:3px solid var(--gold);outline-offset:2
 footer{padding:4px 20px 30px;color:#fff9eb;font-size:13px;text-align:center;text-shadow:0 1px 8px rgba(0,0,0,.4)}
 footer .footer-inner{background:rgba(45,27,10,.8);border:1px solid rgba(245,213,71,.3);border-radius:14px;padding:18px 12px;line-height:1.9}
 footer a{color:#F5D547;text-decoration:none;font-weight:600}footer a:hover{text-decoration:underline}footer strong{font-weight:600}
-</style></head><body><header><h1>🐢 Micromundo dos intervalos</h1><p>Escolha a nota inicial, escreva uma sequência de intervalos ascendentes ou descendentes e descubra a melodia. As durações são determinadas por padrões rítmicos prontos, incluindo frases longas.</p></header><main><section class="card"><h2>1. Defina o ponto de partida</h2><div class="two"><div class="field"><label for="start">Nota inicial</label><select id="start"></select></div><div class="field"><label for="tempo">Andamento (BPM)</label><input id="tempo" type="number" min="40" max="220" value="108"></div></div><div class="field"><label for="rhythm">Ritmo pronto</label><select id="rhythm"></select></div><div class="challengebox"><h2>🎯 Desafios diatônicos</h2><label><input type="checkbox" id="challengeOn"> Ativar restrição pela armadura de clave</label><div class="two"><div class="field"><label for="keySig">Armadura / tonalidade</label><select id="keySig"></select></div><div class="field"><label for="challengeType">Missão</label><select id="challengeType"><option value="free">Exploração: somente notas diatônicas</option><option value="four">Construir 4 notas diatônicas</option><option value="eight">Construir 8 notas diatônicas</option><option value="return">Criar 8 notas e retornar à inicial</option></select></div></div><p id="keyInfo">Ative para explorar apenas notas pertencentes à armadura.</p><div class="challenge-feedback" id="challengeFeedback" aria-live="polite"></div><button class="soft" id="newChallenge" type="button">✦ Começar novo desafio</button></div><h2>2. Escreva os intervalos</h2><div class="field"><label for="code">Digite os intervalos separados por espaços; o texto continua visualmente na linha seguinte</label><textarea id="code" rows="5" wrap="soft" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Sequência de intervalos separados por espaços">a1j a2me a2ma a1j d2ma d2me d2ma d2ma a1j a2ma a2ma a1j d2ma a1j</textarea><div class="hint">Demonstração inicial: “Ode à Alegria”, da Nona Sinfonia de Beethoven, a partir de Fá♯4. <code>a1j</code> repete a mesma nota. A cada espaço, a sequência é atualizada automaticamente.</div></div><div class="buttons"><button id="play" class="primary">▶ Tocar melodia</button><button id="step" class="soft">⏭ Próxima nota</button><button id="stop" class="neutral">■ Parar</button><button id="testSound" class="soft" type="button">🔊 Testar som de erro</button><button id="reset" class="neutral">↺ Reiniciar</button></div><div class="help"><h2>Vocabulário</h2><p><code>a</code> ascendente · <code>d</code> descendente</p><p><code>2ma</code> segunda maior (2 semitons) · <code>2me</code> segunda menor (1 semitom)</p><p>A primeira aumentada também é aceita: <code>a1aum</code> (Dó → Dó♯) e <code>d1aum</code> (Dó → Dó♭). São aceitos intervalos simples e compostos: <code>a9ma</code>, <code>d10me</code>, <code>a11aum</code>, <code>a13ma</code>, <code>a15j</code> etc. Qualidades: <code>ma</code> (maior), <code>me</code> (menor), <code>j</code> (justo), <code>aum</code> (aumentado) e <code>dim</code> (diminuto).</p><p>Exemplo descendente: <code>d3me</code> = terça menor para baixo.</p></div><div class="example"><b>Investigação:</b> a frase inicial de “Ode à Alegria” já está carregada. Altere um intervalo e escute o resultado. Depois escolha outro ritmo e compare as duas versões.</div></section><section class="card viewport"><div class="topline"><span class="pill" id="badge">Pronto</span><span class="status" id="status">A nota inicial também é tocada.</span></div><canvas class="chart" id="chart" width="900" height="430" aria-label="Gráfico de alturas por tempo"></canvas><div class="rhythm"><div class="rhythmTitle" id="rhythmTitle">Ritmo</div><div class="rhythmCells" id="rhythmCells"></div><div class="hint">Cada célula indica a duração de uma nota, em pulsos. Quando há mais notas que células, o padrão recomeça.</div></div><div class="notes" id="notes" aria-live="polite"></div></section></main><footer><div class="footer-inner">Desenvolvido pelo <strong>professor Dr. Glauber Santiago</strong> — DAC/UFSCar<br>Apoio: <a href="https://grupohorizonte.ufscar.br/" target="_blank" rel="noopener noreferrer">Grupo de Pesquisa Horizonte ↗</a> • <a href="https://servidores.ufscar.br/glauber/" target="_blank" rel="noopener noreferrer">🌐 Website do Docente ↗</a><br><small>Micromundo inspirado em Seymour Papert e na linguagem LOGO. Grafia musical preservada por graus diatônicos e alterações; reprodução em temperamento igual.</small></div></footer><script>
+</style></head><body><header><h1>🐢 Micromundo dos intervalos</h1><p>Escolha a nota inicial, escreva uma sequência de intervalos ascendentes ou descendentes e descubra a melodia. As durações são determinadas por padrões rítmicos prontos, incluindo frases longas.</p></header><main><section class="card"><h2>1. Defina o ponto de partida</h2><div class="two"><div class="field"><label for="start">Nota inicial</label><select id="start"></select></div><div class="field"><label for="tempo">Andamento (BPM)</label><input id="tempo" type="number" min="40" max="220" value="108"></div></div><div class="field"><label for="rhythm">Ritmo pronto</label><select id="rhythm"></select></div><div class="challengebox"><h2>🎯 Desafios diatônicos</h2><label><input type="checkbox" id="challengeOn"> Ativar restrição pela armadura de clave</label><div class="two"><div class="field"><label for="keySig">Armadura / tonalidade</label><select id="keySig"></select></div><div class="field"><label for="challengeType">Missão</label><select id="challengeType"><option value="free">Exploração: somente notas diatônicas</option><option value="four">Construir 4 notas diatônicas</option><option value="eight">Construir 8 notas diatônicas</option><option value="return">Criar 8 notas e retornar à inicial</option></select></div></div><p id="keyInfo">Ative para explorar apenas notas pertencentes à armadura.</p><div class="challenge-feedback" id="challengeFeedback" aria-live="polite"></div><button class="soft" id="newChallenge" type="button">✦ Começar novo desafio</button></div><h2>2. Escreva os intervalos</h2><div class="field"><label for="code">Digite os intervalos separados por espaços; o texto continua visualmente na linha seguinte</label><textarea id="code" rows="5" wrap="soft" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Sequência de intervalos separados por espaços">a1j a2me a2ma a1j d2ma d2me d2ma d2ma a1j a2ma a2ma a1j d2ma a1j</textarea><div class="hint">Demonstração inicial: “Ode à Alegria”, da Nona Sinfonia de Beethoven, a partir de Fá♯4. <code>a1j</code> repete a mesma nota. Ao completar um comando, a sequência é atualizada automaticamente. Espaço ou Enter finaliza o comando em edição.</div></div><div class="buttons"><button id="play" class="primary">▶ Tocar melodia</button><button id="step" class="soft">⏭ Próxima nota</button><button id="stop" class="neutral">■ Parar</button><button id="testSound" class="soft" type="button">🔊 Testar som de erro</button><button id="reset" class="neutral">↺ Reiniciar</button></div><div class="help"><h2>Vocabulário</h2><p><code>a</code> ascendente · <code>d</code> descendente</p><p><code>2ma</code> segunda maior (2 semitons) · <code>2me</code> segunda menor (1 semitom)</p><p>A primeira aumentada também é aceita: <code>a1aum</code> (Dó → Dó♯) e <code>d1aum</code> (Dó → Dó♭). São aceitos intervalos simples e compostos: <code>a9ma</code>, <code>d10me</code>, <code>a11aum</code>, <code>a13ma</code>, <code>a15j</code> etc. Qualidades: <code>ma</code> (maior), <code>me</code> (menor), <code>j</code> (justo), <code>aum</code> (aumentado) e <code>dim</code> (diminuto).</p><p>Exemplo descendente: <code>d3me</code> = terça menor para baixo.</p></div><div class="example"><b>Investigação:</b> a frase inicial de “Ode à Alegria” já está carregada. Altere um intervalo e escute o resultado. Depois escolha outro ritmo e compare as duas versões.</div></section><section class="card viewport"><div class="topline"><span class="pill" id="badge">Pronto</span><span class="status" id="status">A nota inicial também é tocada.</span></div><canvas class="chart" id="chart" width="900" height="430" aria-label="Gráfico de alturas por tempo"></canvas><div class="rhythm"><div class="rhythmTitle" id="rhythmTitle">Ritmo</div><div class="rhythmCells" id="rhythmCells"></div><div class="hint">Cada célula indica a duração de uma nota, em pulsos. Quando há mais notas que células, o padrão recomeça.</div></div><div class="notes" id="notes" aria-live="polite"></div></section></main><footer><div class="footer-inner">Desenvolvido pelo <strong>professor Dr. Glauber Santiago</strong> — DAC/UFSCar<br>Apoio: <a href="https://grupohorizonte.ufscar.br/" target="_blank" rel="noopener noreferrer">Grupo de Pesquisa Horizonte ↗</a> • <a href="https://servidores.ufscar.br/glauber/" target="_blank" rel="noopener noreferrer">🌐 Website do Docente ↗</a><br><small>Micromundo inspirado em Seymour Papert e na linguagem LOGO. Grafia musical preservada por graus diatônicos e alterações; reprodução em temperamento igual.</small></div></footer><script>
 const viewPanel=document.querySelector('.viewport'),codeField=document.getElementById('code').closest('.field'),editorHeading=codeField.previousElementSibling,editorControls=codeField.nextElementSibling,workspace=document.createElement('div'),editor=document.createElement('section'),editorLayout=document.createElement('div');
 workspace.className='workspace';editor.className='card editor';editorLayout.className='editor-layout';
 document.querySelector('main').append(workspace);workspace.append(viewPanel,editor);editor.append(editorHeading,editorLayout);editorLayout.append(codeField,editorControls);
@@ -91,8 +91,19 @@ const signatureNames=['Dó maior / Lá menor (0)','Sol maior / Mi menor (1♯)',
 const alterations=Array.from({length:15},(_,i)=>{let out=Array(7).fill(0);const sharps=[3,0,4,1,5,2,6],flats=[6,2,5,1,4,0,3];const n=i<=7?i:i-7;for(let k=0;k<n;k++)out[(i<=7?sharps:flats)[k]]=i<=7?1:-1;return out});
 signatureNames.forEach((label,i)=>{let o=document.createElement('option');o.value=i;o.textContent=label;keySig.append(o)});
 function allowedNote(n){return !challengeOn.checked || n.alt===alterations[+keySig.value][n.letter]}
-function refreshKeyInfo(){const a=alterations[+keySig.value];keyInfo.textContent=challengeOn.checked?'Notas permitidas: '+L.map((l,i)=>pt[l]+(a[i]>0?'♯':a[i]<0?'♭':'')).join(' · ')+'. A grafia enarmônica também conta.':'Ative para explorar apenas notas pertencentes à armadura.'}
-function missionFeedback(){if(!challengeOn.checked){challengeFeedback.textContent='';challengeFeedback.className='challenge-feedback';return;}const ct=challengeType.value,count=melody.length;const goal=ct==='four'?4:8;let message='';if(ct==='free')message=count+' nota(s) diatônica(s). Explore livremente.';else if(count<goal)message=`${count}/${goal} notas. Continue construindo!`;else if(ct==='return' && (melody[goal-1].letter!==melody[0].letter || melody[goal-1].alt!==melody[0].alt || melody[goal-1].octave!==melody[0].octave))message='Você chegou a 8 notas, mas a última ainda não voltou à nota inicial.';else message='✓ Desafio concluído! Experimente outro percurso.';challengeFeedback.textContent=message;challengeFeedback.className='challenge-feedback '+(message.startsWith('✓')?'good':'')}
+function refreshKeyInfo(){const a=alterations[+keySig.value];keyInfo.textContent=challengeOn.checked?'Notas permitidas: '+L.map((l,i)=>pt[l]+(a[i]>0?'♯':a[i]<0?'♭':'')).join(' · ')+'. A grafia deve corresponder à armadura; notas enarmônicas com outra grafia não são aceitas.':'Ative para explorar apenas notas pertencentes à armadura.'}
+function missionFeedback(){
+ if(!challengeOn.checked){challengeFeedback.textContent='';challengeFeedback.className='challenge-feedback';return;}
+ const ct=challengeType.value,count=melody.length,goal=ct==='four'?4:8;
+ let message='',state='';
+ if(ct==='free')message=count+' nota(s) diatônica(s). Explore livremente.';
+ else if(count<goal)message=`${count}/${goal} notas, incluindo a inicial. Continue construindo!`;
+ else if(count>goal){message=`${count}/${goal} notas. Remova ${count-goal} intervalo(s): a missão exige exatamente ${goal} notas, incluindo a inicial.`;state='error';}
+ else if(ct==='return' && (melody.at(-1).letter!==melody[0].letter || melody.at(-1).alt!==melody[0].alt || melody.at(-1).octave!==melody[0].octave)){
+  message='Você chegou a 8 notas, mas a última deve retornar à nota inicial, com a mesma grafia e oitava.';state='error';
+ }else{message='✓ Desafio concluído! Experimente outro percurso.';state='good';}
+ challengeFeedback.textContent=message;challengeFeedback.className='challenge-feedback '+state;
+}
 const pc=(x)=>((x%12)+12)%12;
 function name(n){return pt[L[n.letter]]+(n.alt>0?'♯'.repeat(n.alt):'♭'.repeat(-n.alt))+n.octave}
 function midi(n){return 12*(n.octave+1)+base[n.letter]+n.alt}
@@ -130,25 +141,52 @@ function transpose(n,direction,number,quality){
  if(Math.abs(alt)>3)throw new Error('Alteração fora do limite da notação suportada.');
  return {letter,octave,alt,midi:targetMidi};
 }
+function timedNotes(out){
+ const pattern=rhythms[+els.rhythm.value][1];let time=0;
+ return out.map((note,i)=>{const dur=pattern[i%pattern.length],event={...note,dur,start:time};time+=dur;return event;});
+}
 function parse(overrideTokens=null){
  const tokens=overrideTokens ?? els.code.value.trim().split(/\s+/).filter(Boolean);
- let n=JSON.parse(els.start.value);
- if(!allowedNote(n))throw Error('A nota inicial '+name(n)+' não pertence à armadura escolhida. Escolha outra nota inicial.');
- const out=[{...n,interval:'Início'}];
- for(let i=0;i<tokens.length;i++){
-   const token=tokens[i].toLowerCase();const mat=/^([ad])(\d{1,2})(ma|me|j|aum|dim)$/.exec(token);
-   if(!mat)throw Error('Intervalo inválido na posição '+(i+1)+': '+tokens[i]);
-   const number=+mat[2];if(number<1||number>22)throw Error('São aceitos intervalos da 1ª até a 22ª.');
-   n=transpose(n,mat[1],number,mat[3]);
-   if(!allowedNote(n))throw Error('Desafio diatônico: '+name(n)+' não pertence à armadura! O intervalo '+token+' na posição '+(i+1)+' não foi aceito.');
-   if(n.midi<24||n.midi>108)throw Error('A melodia saiu da extensão sonora suportada (Dó1 a Dó8) na posição '+(i+1)+'.');
+ let n=JSON.parse(els.start.value),out=[],position=0;
+ try{
+  if(!allowedNote(n))throw Error('A nota inicial '+name(n)+' não pertence à armadura escolhida. Escolha outra nota inicial.');
+  out.push({...n,interval:'Início'});
+  for(let i=0;i<tokens.length;i++){
+   position=i+1;
+   const token=tokens[i].toLowerCase(),mat=/^([ad])(\d{1,2})(ma|me|j|aum|dim)$/.exec(token);
+   if(!mat)throw Error('Intervalo inválido na posição '+position+': '+tokens[i]);
+   const number=+mat[2];if(number<1||number>22)throw Error('Intervalo '+token+' na posição '+position+': são aceitos intervalos da 1ª até a 22ª.');
+   try{n=transpose(n,mat[1],number,mat[3]);}catch(err){throw Error('Intervalo '+token+' na posição '+position+': '+err.message);}
+   if(!allowedNote(n))throw Error('Desafio diatônico: '+name(n)+' não pertence à armadura! O intervalo '+token+' na posição '+position+' não foi aceito.');
+   if(n.midi<24||n.midi>108)throw Error('A melodia saiu da extensão sonora suportada (Dó1 a Dó8) na posição '+position+'.');
    out.push({...n,interval:token});
+  }
+ }catch(err){
+  err.partial=timedNotes(out);
+  err.key=JSON.stringify([els.start.value,challengeOn.checked,keySig.value,tokens.slice(0,position).map(t=>t.toLowerCase()),err.message]);
+  throw err;
  }
- const p=rhythms[+els.rhythm.value][1];let t=0;
- return out.map((v,i)=>{const dur=p[i%p.length];const e={...v,dur,start:t};t+=dur;return e});
+ return timedNotes(out);
 }
 function stop(){playing=false;runId++;if(animationFrame!==null){cancelAnimationFrame(animationFrame);animationFrame=null;}activeIndex=-1;turtlePosition=null;els.badge.textContent='Parado';draw()}
-function prepare(overrideTokens=null){try{melody=parse(overrideTokens);cursor=0;activeIndex=-1;turtlePosition=null;els.badge.textContent='Pronto';els.status.classList.remove('error');els.status.textContent=melody.length+' notas, incluindo a inicial.';draw();missionFeedback();return true}catch(err){melody=[];els.badge.textContent='Verifique os intervalos';els.status.textContent=err.message;els.status.classList.add('error');draw();challengeFeedback.textContent=err.message;challengeFeedback.className='challenge-feedback error';return false}}
+let lastErrorKey=null;
+function prepare(overrideTokens=null,notify=true){
+ cursor=0;activeIndex=-1;turtlePosition=null;
+ try{
+  melody=parse(overrideTokens);lastErrorKey=null;
+  els.badge.textContent='Pronto';els.status.classList.remove('error');
+  els.status.textContent=melody.length+' notas, incluindo a inicial.';
+  draw();missionFeedback();return true;
+ }catch(err){
+  const isNew=err.key!==lastErrorKey;lastErrorKey=err.key;
+  melody=err.partial||[];els.badge.textContent='Verifique os intervalos';
+  els.status.textContent=err.message;els.status.classList.add('error');draw();
+  challengeFeedback.textContent=challengeOn.checked?err.message:'';
+  challengeFeedback.className='challenge-feedback'+(challengeOn.checked?' error':'');
+  if(notify&&isNew)errorSound();
+  return false;
+ }
+}
 function tempo(){return Math.min(220,Math.max(40,+els.tempo.value||100))}
 function tone(m,dur){if(!audio)audio=new (window.AudioContext||window.webkitAudioContext)();audio.resume();const osc=audio.createOscillator(),vol=audio.createGain();const now=audio.currentTime,secs=dur*60/tempo();osc.type='sine';osc.frequency.value=440*Math.pow(2,(m-69)/12);vol.gain.setValueAtTime(.0001,now);vol.gain.exponentialRampToValueAtTime(.19,now+.018);vol.gain.exponentialRampToValueAtTime(.0001,now+Math.max(.07,secs*.92));osc.connect(vol).connect(audio.destination);osc.start(now);osc.stop(now+Math.max(.08,secs))}
 // Sinal acústico breve para intervalos que infringem o desafio ou os limites aceitos.
@@ -214,7 +252,7 @@ async function play(){
   turtlePosition={time:melody[melody.length-1].start,midi:melody[melody.length-1].midi};draw();}
 }
 async function step(){
- stop();if(!melody.length||cursor>=melody.length){if(!prepare())return}
+ const nextCursor=cursor;stop();if(!prepare())return;cursor=nextCursor<melody.length?nextCursor:0;
  playing=true;const id=++runId;
  const index=cursor,n=melody[index];
  if(index>0){
@@ -232,8 +270,8 @@ function rhythmView(){const [title,pattern]=rhythms[+els.rhythm.value];els.rt.te
 function draw(){
  rhythmView();const c=els.canvas,ctx=c.getContext('2d'),w=c.width,h=c.height,l=72,r=32,t=26,b=48;
  ctx.clearRect(0,0,w,h);ctx.fillStyle='white';ctx.fillRect(0,0,w,h);
- const all=melody.length?melody:[{...JSON.parse(els.start.value),start:0,dur:1,interval:'Início'}];
- const low=Math.min(...all.map(n=>n.midi))-3,high=Math.max(...all.map(n=>n.midi))+3,total=Math.max(4,...all.map(n=>n.start+n.dur));
+ const all=melody.length?melody:lastErrorKey?[]:[{...JSON.parse(els.start.value),start:0,dur:1,interval:'Início'}];
+ const low=(all.length?Math.min(...all.map(n=>n.midi)):60)-3,high=(all.length?Math.max(...all.map(n=>n.midi)):60)+3,total=Math.max(4,...all.map(n=>n.start+n.dur));
  const X=a=>l+(a/total)*(w-l-r),Y=m=>t+(high-m)/(high-low)*(h-t-b);
  ctx.font='12px Inter, sans-serif';ctx.textBaseline='middle';ctx.textAlign='right';
  for(let m=Math.ceil(low);m<=high;m+=2){const y=Y(m);ctx.strokeStyle='#ede7dc';ctx.beginPath();ctx.moveTo(l,y);ctx.lineTo(w-r,y);ctx.stroke();ctx.fillStyle='#806f58';ctx.fillText(String(m),l-8,y)}
@@ -266,22 +304,26 @@ document.getElementById('testSound').addEventListener('click',errorSound);
 document.getElementById('step').addEventListener('click',step);
 document.getElementById('stop').addEventListener('click',stop);
 document.getElementById('reset').addEventListener('click',()=>{stop();melody=[];cursor=0;prepare()});
-// Atualiza o percurso depois de cada espaço, sem exigir Enter nem clicar em Executar.
-// O último termo ainda em edição não é interpretado até o usuário inserir um espaço.
+// Comandos completos são validados imediatamente. Prefixos ainda em edição aguardam a conclusão.
 let lastCompletedTokens=[];
 function updateTypingPreview(){
  const raw=els.code.value;
  const complete=raw.trim().split(/\s+/).filter(Boolean);
- if(raw.length && !/\s$/.test(raw))complete.pop();
+ const last=complete.at(-1)||'';
+ const finished=/^([ad])(\d{1,2})(ma|me|j|aum|dim)$/i.test(last);
+ const pending=raw.length && !/\s$/.test(raw) && !finished && /^[ad]\d{0,2}(?:m[ae]?|j|a(?:u(?:m)?)?|d(?:i(?:m)?)?)?$/i.test(last);
+ if(pending)complete.pop();
  const before=lastCompletedTokens;
  const appended=complete.length===before.length+1 && before.every((x,i)=>x===complete[i]);
- const changedCompleted=complete.length>0 && complete.length>=before.length && complete.some((x,i)=>x!==before[i]);
- // Registra os tokens finalizados mesmo se estiverem errados: um erro não é repetido
- // enquanto a pessoa continua digitando nem em alterações sem novo espaço.
+ // Guarda os comandos completos para tocar apenas a nova nota acrescentada.
  lastCompletedTokens=[...complete];
  stop();
  const ok=prepare(complete);
  if(ok){
+   if(pending){
+    els.status.textContent=melody.length+' notas válidas. Termine o intervalo em edição.';
+    if(challengeOn.checked){challengeFeedback.textContent='Intervalo em edição. Termine o comando para avaliar a missão.';challengeFeedback.className='challenge-feedback';}
+   }
    if(appended && melody.length>1){
      const n=melody[melody.length-1];
      turtlePosition={time:n.start,midi:n.midi};activeIndex=melody.length-1;draw();
@@ -289,8 +331,6 @@ function updateTypingPreview(){
      els.badge.textContent='♪ '+name(n);
      els.status.textContent='Intervalo '+n.interval+' → '+name(n)+' · nota tocada automaticamente';
    }
- }else if(changedCompleted){
-   errorSound();
  }
 }
 els.code.addEventListener('input',updateTypingPreview);
@@ -316,5 +356,5 @@ document.getElementById('newChallenge').addEventListener('click',()=>{
 });
 els.code.addEventListener('change',()=>{stop();prepare()});
 refreshKeyInfo();
-prepare();
+prepare(null,false);
 </script></body></html>
