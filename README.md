@@ -105,4 +105,16 @@ O Tartaruga Musical integra um conjunto de iniciativas de desenvolvimento de rec
 
 ## Verificação da lógica
 
-Com Node.js instalado, execute `node tests/challenges.cjs` e `node tests/fm.cjs` e `node tests/songs.cjs`. Os testes exercitam a validação, as missões e os eventos do aplicativo em um ambiente simulado; não verificam a reprodução audível no navegador.
+Com Node.js instalado, execute `node tests/challenges.cjs`, `node tests/fm.cjs`, `node tests/songs.cjs` e `node tests/math-melodies.cjs`. Os testes exercitam a validação, as missões e os eventos do aplicativo em um ambiente simulado; não verificam a reprodução audível no navegador.
+
+## Melodias matemáticas
+
+As 36 funções solicitadas estão no seletor de músicas, cada uma com duas versões (72 exemplos): diatônica em Dó maior e cromática em relação a Dó maior. Marcha Soldado continua sendo a música inicial.
+
+Cada curva é amostrada em 48 pontos do domínio indicado na interface. Os valores são normalizados e arredondados para notas: a versão diatônica usa a escala de Dó maior entre Dó4 e Dó6; a cromática usa semitons entre Dó♯4 e Dó6. Os exemplos são aproximações musicais discretas da curva, com ritmo regular de colcheias e uma nota final sustentada. É possível editar os intervalos e experimentar outros ritmos.
+
+Fibonacci usa 16 termos (F₀ a F₁₅) e a conversão ln(1 + Fₙ) antes da normalização para distribuir seu crescimento pelas alturas. A tangente usa um domínio sem assíntotas. A função de Weierstrass é uma aproximação finita de sete termos. Os parâmetros escolhidos para as distribuições e as demais curvas aparecem junto da fórmula na interface.
+
+As definições de [Bessel J₀](https://dlmf.nist.gov/10.2.E2) e da [função de erro Erf](https://dlmf.nist.gov/7.2) seguem a DLMF do NIST; o app calcula aproximações numéricas.
+
+Os testes das melodias matemáticas verificam as 72 sequências, os intervalos, a classificação diatônica ou cromática, valores de referência das funções especiais e a alternância entre exemplos.

@@ -54,7 +54,7 @@ summary.rhythmTitle:focus-visible{outline:3px solid var(--gold);outline-offset:2
 footer{padding:4px 20px 30px;color:#fff9eb;font-size:13px;text-align:center;text-shadow:0 1px 8px rgba(0,0,0,.4)}
 footer .footer-inner{background:rgba(45,27,10,.8);border:1px solid rgba(245,213,71,.3);border-radius:14px;padding:18px 12px;line-height:1.9}
 footer a{color:#F5D547;text-decoration:none;font-weight:600}footer a:hover{text-decoration:underline}footer strong{font-weight:600}
-</style></head><body><header><h1>🐢 Micromundo dos intervalos</h1><p>Escolha a nota inicial, escreva uma sequência de intervalos ascendentes ou descendentes e descubra a melodia. As durações são determinadas por padrões rítmicos prontos, incluindo frases longas.</p></header><main><section class="card"><h2>1. Defina o ponto de partida</h2><div class="field"><label for="song">Música de demonstração</label><select id="song"><option value="" disabled>Melodia personalizada</option><option value="marcha">Marcha Soldado</option><option value="cravo">O Cravo Brigou com a Rosa</option><option value="ode">Ode à Alegria</option></select></div><div class="two"><div class="field"><label for="start">Nota inicial</label><select id="start"></select></div><div class="field"><label for="tempo">Andamento (BPM)</label><input id="tempo" type="number" min="40" max="220" value="108"></div></div><div class="field"><label for="rhythm">Ritmo pronto</label><select id="rhythm"></select><div class="hint">Opções com nome de música carregam também a melodia. Os demais padrões alteram apenas o ritmo.</div></div><div class="challengebox"><h2>🎯 Desafios diatônicos</h2><label><input type="checkbox" id="challengeOn"> Ativar restrição pela armadura de clave</label><div class="two"><div class="field"><label for="keySig">Armadura / tonalidade</label><select id="keySig"></select></div><div class="field"><label for="challengeType">Missão</label><select id="challengeType"><option value="free">Exploração: somente notas diatônicas</option><option value="four">Construir 4 notas diatônicas</option><option value="eight">Construir 8 notas diatônicas</option><option value="return">Criar 8 notas e retornar à inicial</option></select></div></div><p id="keyInfo">Ative para explorar apenas notas pertencentes à armadura.</p><div class="challenge-feedback" id="challengeFeedback" aria-live="polite"></div><button class="soft" id="newChallenge" type="button">✦ Começar novo desafio</button></div><h2>2. Escreva os intervalos</h2><div class="field"><label for="code">Digite os intervalos separados por espaços; o texto continua visualmente na linha seguinte</label><textarea id="code" rows="5" wrap="soft" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Sequência de intervalos separados por espaços">1j d3me d3ma 1j a3ma a3me 1j 1j d3me d2ma a2ma a2me 1j 1j d3me a4j 1j a2ma d2ma d2ma d2me d2ma d2ma</textarea><div class="hint"><span id="demoContext"></span><code>1j</code> repete a mesma nota. Os atalhos <code>u</code> e <code>=</code> são convertidos para <code>1j</code>. Ao completar um comando, a sequência é atualizada automaticamente. Espaço ou Enter finaliza o comando em edição.</div></div><div class="buttons"><button id="play" class="primary">▶ Tocar melodia</button><button id="step" class="soft">⏭ Próxima nota</button><button id="stop" class="neutral">■ Parar</button><div class="reverb-control"><label for="reverb">Reverberação <output id="reverbValue" for="reverb">25%</output></label><input id="reverb" type="range" min="0" max="100" step="1" value="25" aria-label="Intensidade da reverberação"></div><button id="reset" class="neutral">↺ Reiniciar</button></div><div class="help"><h2>Vocabulário</h2><p><code>1j</code> primeira justa: repete a nota. Também aceita <code>u</code> e <code>=</code>, exibidos como <code>1j</code>.</p><p><code>a</code> ascendente · <code>d</code> descendente</p><p><code>2ma</code> segunda maior (2 semitons) · <code>2me</code> segunda menor (1 semitom)</p><p>A primeira aumentada também é aceita: <code>a1aum</code> (Dó → Dó♯) e <code>d1aum</code> (Dó → Dó♭). São aceitos intervalos simples e compostos: <code>a9ma</code>, <code>d10me</code>, <code>a11aum</code>, <code>a13ma</code>, <code>a15j</code> etc. Qualidades: <code>ma</code> (maior), <code>me</code> (menor), <code>j</code> (justo), <code>aum</code> (aumentado) e <code>dim</code> (diminuto).</p><p>Exemplo descendente: <code>d3me</code> = terça menor para baixo.</p></div><div class="example" id="investigation"><b>Investigação:</b> construa uma melodia, altere um intervalo e escute o resultado. Depois escolha outro ritmo e compare as duas versões.</div></section><section class="card viewport"><div class="topline"><span class="pill" id="badge">Pronto</span><span class="status" id="status">A nota inicial também é tocada.</span></div><canvas class="chart" id="chart" width="900" height="430" aria-label="Gráfico de alturas por tempo"></canvas><div class="rhythm"><div class="rhythmTitle" id="rhythmTitle">Ritmo</div><div class="rhythmCells" id="rhythmCells"></div><div class="hint">Cada célula indica a duração de uma nota, em pulsos. Quando há mais notas que células, o padrão recomeça. Pausas iniciais e finais indicadas são executadas uma vez na reprodução completa.</div></div><div class="notes" id="notes" aria-live="polite"></div></section></main><footer><div class="footer-inner">Desenvolvido pelo <strong>professor Dr. Glauber Santiago</strong> — DAC/UFSCar<br>Apoio: <a href="https://grupohorizonte.ufscar.br/" target="_blank" rel="noopener noreferrer">Grupo de Pesquisa Horizonte ↗</a> • <a href="https://servidores.ufscar.br/glauber/" target="_blank" rel="noopener noreferrer">🌐 Website do Docente ↗</a><br><small>Micromundo inspirado em Seymour Papert e na linguagem LOGO. Grafia musical preservada por graus diatônicos e alterações; reprodução em temperamento igual.</small></div></footer><script>
+</style></head><body><header><h1>🐢 Micromundo dos intervalos</h1><p>Escolha a nota inicial, escreva uma sequência de intervalos ascendentes ou descendentes e descubra a melodia. As durações são determinadas por padrões rítmicos prontos, incluindo frases longas.</p></header><main><section class="card"><h2>1. Defina o ponto de partida</h2><div class="field"><label for="song">Música de demonstração</label><select id="song"><option value="" disabled>Melodia personalizada</option><option value="marcha">Marcha Soldado</option><option value="cravo">O Cravo Brigou com a Rosa</option><option value="ode">Ode à Alegria</option></select><div class="hint" id="mathInfo" hidden></div></div><div class="two"><div class="field"><label for="start">Nota inicial</label><select id="start"></select></div><div class="field"><label for="tempo">Andamento (BPM)</label><input id="tempo" type="number" min="40" max="220" value="108"></div></div><div class="field"><label for="rhythm">Ritmo pronto</label><select id="rhythm"></select><div class="hint">Opções com nome de música carregam também a melodia. Os demais padrões alteram apenas o ritmo.</div></div><div class="challengebox"><h2>🎯 Desafios diatônicos</h2><label><input type="checkbox" id="challengeOn"> Ativar restrição pela armadura de clave</label><div class="two"><div class="field"><label for="keySig">Armadura / tonalidade</label><select id="keySig"></select></div><div class="field"><label for="challengeType">Missão</label><select id="challengeType"><option value="free">Exploração: somente notas diatônicas</option><option value="four">Construir 4 notas diatônicas</option><option value="eight">Construir 8 notas diatônicas</option><option value="return">Criar 8 notas e retornar à inicial</option></select></div></div><p id="keyInfo">Ative para explorar apenas notas pertencentes à armadura.</p><div class="challenge-feedback" id="challengeFeedback" aria-live="polite"></div><button class="soft" id="newChallenge" type="button">✦ Começar novo desafio</button></div><h2>2. Escreva os intervalos</h2><div class="field"><label for="code">Digite os intervalos separados por espaços; o texto continua visualmente na linha seguinte</label><textarea id="code" rows="5" wrap="soft" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Sequência de intervalos separados por espaços">1j d3me d3ma 1j a3ma a3me 1j 1j d3me d2ma a2ma a2me 1j 1j d3me a4j 1j a2ma d2ma d2ma d2me d2ma d2ma</textarea><div class="hint"><span id="demoContext"></span><code>1j</code> repete a mesma nota. Os atalhos <code>u</code> e <code>=</code> são convertidos para <code>1j</code>. Ao completar um comando, a sequência é atualizada automaticamente. Espaço ou Enter finaliza o comando em edição.</div></div><div class="buttons"><button id="play" class="primary">▶ Tocar melodia</button><button id="step" class="soft">⏭ Próxima nota</button><button id="stop" class="neutral">■ Parar</button><div class="reverb-control"><label for="reverb">Reverberação <output id="reverbValue" for="reverb">25%</output></label><input id="reverb" type="range" min="0" max="100" step="1" value="25" aria-label="Intensidade da reverberação"></div><button id="reset" class="neutral">↺ Reiniciar</button></div><div class="help"><h2>Vocabulário</h2><p><code>1j</code> primeira justa: repete a nota. Também aceita <code>u</code> e <code>=</code>, exibidos como <code>1j</code>.</p><p><code>a</code> ascendente · <code>d</code> descendente</p><p><code>2ma</code> segunda maior (2 semitons) · <code>2me</code> segunda menor (1 semitom)</p><p>A primeira aumentada também é aceita: <code>a1aum</code> (Dó → Dó♯) e <code>d1aum</code> (Dó → Dó♭). São aceitos intervalos simples e compostos: <code>a9ma</code>, <code>d10me</code>, <code>a11aum</code>, <code>a13ma</code>, <code>a15j</code> etc. Qualidades: <code>ma</code> (maior), <code>me</code> (menor), <code>j</code> (justo), <code>aum</code> (aumentado) e <code>dim</code> (diminuto).</p><p>Exemplo descendente: <code>d3me</code> = terça menor para baixo.</p></div><div class="example" id="investigation"><b>Investigação:</b> construa uma melodia, altere um intervalo e escute o resultado. Depois escolha outro ritmo e compare as duas versões.</div></section><section class="card viewport"><div class="topline"><span class="pill" id="badge">Pronto</span><span class="status" id="status">A nota inicial também é tocada.</span></div><canvas class="chart" id="chart" width="900" height="430" aria-label="Gráfico de alturas por tempo"></canvas><div class="rhythm"><div class="rhythmTitle" id="rhythmTitle">Ritmo</div><div class="rhythmCells" id="rhythmCells"></div><div class="hint">Cada célula indica a duração de uma nota, em pulsos. Quando há mais notas que células, o padrão recomeça. Pausas iniciais e finais indicadas são executadas uma vez na reprodução completa.</div></div><div class="notes" id="notes" aria-live="polite"></div></section></main><footer><div class="footer-inner">Desenvolvido pelo <strong>professor Dr. Glauber Santiago</strong> — DAC/UFSCar<br>Apoio: <a href="https://grupohorizonte.ufscar.br/" target="_blank" rel="noopener noreferrer">Grupo de Pesquisa Horizonte ↗</a> • <a href="https://servidores.ufscar.br/glauber/" target="_blank" rel="noopener noreferrer">🌐 Website do Docente ↗</a><br><small>Micromundo inspirado em Seymour Papert e na linguagem LOGO. Grafia musical preservada por graus diatônicos e alterações; reprodução em temperamento igual.</small></div></footer><script>
 const viewPanel=document.querySelector('.viewport'),codeField=document.getElementById('code').closest('.field'),editorHeading=codeField.previousElementSibling,editorControls=codeField.nextElementSibling,workspace=document.createElement('div'),editor=document.createElement('section'),editorLayout=document.createElement('div');
 workspace.className='workspace';editor.className='card editor';editorLayout.className='editor-layout';
 document.querySelector('main').append(workspace);workspace.append(viewPanel,editor);editor.append(editorHeading,editorLayout);editorLayout.append(codeField,editorControls);
@@ -86,6 +86,97 @@ const rhythms=[
  ['32 · Marcha Soldado · 24 notas',songs[0].durations,songs[0]],
  ['33 · O Cravo Brigou com a Rosa · 32 notas',songs[1].durations,songs[1]]
 ];
+// Exemplos discretos: o domínio é amostrado e a imagem é normalizada para alturas musicais.
+function erfApprox(x){
+ const sign=x<0?-1:1,b=Math.abs(x),n=120,h=b/n;let sum=1+Math.exp(-b*b);
+ for(let i=1;i<n;i++)sum+=(i%2?4:2)*Math.exp(-((i*h)**2));
+ return sign*2/Math.sqrt(Math.PI)*sum*h/3;
+}
+function besselJ0(x){
+ let term=1,sum=1;
+ for(let k=1;k<=60;k++){term*=-(x*x/4)/(k*k);sum+=term;if(Math.abs(term)<1e-13)break;}
+ return sum;
+}
+function weierstrassApprox(x){let y=0;for(let n=0;n<=6;n++)y+=.5**n*Math.cos(3**n*Math.PI*x);return y;}
+const mathFunctions=[
+ ['Linear',-1,1,'f(x) = x',x=>x],
+ ['Quadrática',-2,2,'f(x) = x²',x=>x*x],
+ ['Cúbica',-2,2,'f(x) = x³',x=>x**3],
+ ['Valor absoluto',-2,2,'f(x) = |x|',x=>Math.abs(x)],
+ ['Raiz quadrada',0,4,'f(x) = √x',x=>Math.sqrt(x)],
+ ['Exponencial',0,3,'f(x) = eˣ',x=>Math.exp(x)],
+ ['Logarítmica',.1,4,'f(x) = ln(x)',x=>Math.log(x)],
+ ['Seno',0,4*Math.PI,'f(x) = sen(x)',x=>Math.sin(x)],
+ ['Cosseno',0,4*Math.PI,'f(x) = cos(x)',x=>Math.cos(x)],
+ ['Racional',-3,3,'f(x) = x / (1 + x²)',x=>x/(1+x*x)],
+ ['Normal (Gaussiana)',-3,3,'f(x) = e^(−x²/2) / √(2π)',x=>Math.exp(-x*x/2)/Math.sqrt(2*Math.PI)],
+ ['Fibonacci',0,15,'F₀ = 0, F₁ = 1; Fₙ = Fₙ₋₁ + Fₙ₋₂',(_,i)=>{let a=0,b=1;for(let n=0;n<i;n++)[a,b]=[b,a+b];return a;}],
+ ['Logística',-6,6,'f(x) = 1 / (1 + e^(−x))',x=>1/(1+Math.exp(-x))],
+ ['Tangente',-1.3,1.3,'f(x) = tan(x), em um domínio sem assíntotas',x=>Math.tan(x)],
+ ['Sinc',-4,4,'f(x) = sen(πx) / (πx); f(0) = 1',x=>Math.abs(x)<1e-12?1:Math.sin(Math.PI*x)/(Math.PI*x)],
+ ['Onda amortecida',0,4*Math.PI,'f(x) = e^(−x/6) sen(2x)',x=>Math.exp(-x/6)*Math.sin(2*x)],
+ ['Onda dente de serra',0,3,'f(x) = 2(x − piso(x)) − 1',x=>2*(x-Math.floor(x))-1],
+ ['Onda quadrada',0,3,'f(x) = 1 se sen(2πx) ≥ 0; −1 caso contrário',x=>Math.sin(2*Math.PI*x)>=0?1:-1],
+ ['Degrau',-2,2,'f(x) = 0 se x < 0; 1 se x ≥ 0',x=>x<0?0:1],
+ ['Piso',-2,3,'f(x) = piso(x)',x=>Math.floor(x)],
+ ['Recíproca quadrática',.25,3,'f(x) = 1 / x², com x > 0',x=>1/(x*x)],
+ ['Laplace',-4,4,'f(x) = e^(−|x|) / 2',x=>Math.exp(-Math.abs(x))/2],
+ ['Potência fracionária',0,8,'f(x) = x^(2/3), com x ≥ 0',x=>x**(2/3)],
+ ['Gompertz',-4,4,'f(x) = e^(−e^(−x))',x=>Math.exp(-Math.exp(-x))],
+ ['Chirp',0,4,'f(x) = sen(2π(x + 0,35x²))',x=>Math.sin(2*Math.PI*(x+.35*x*x))],
+ ['Cauchy',-4,4,'f(x) = 1 / (π(1 + x²))',x=>1/(Math.PI*(1+x*x))],
+ ['Weibull',0,3,'f(x) = 2x e^(−x²), forma k = 2, escala λ = 1',x=>2*x*Math.exp(-x*x)],
+ ['Beta',0,1,'f(x) = 30x(1 − x)⁴, α = 2, β = 5',x=>30*x*(1-x)**4],
+ ['Gama',0,10,'f(x) = x² e^(−x) / 2, forma k = 3, escala θ = 1',x=>x*x*Math.exp(-x)/2],
+ ['Erro (Erf)',-2.5,2.5,'f(x) = erf(x), por integração numérica',erfApprox],
+ ['Arco-tangente',-4,4,'f(x) = arctan(x)',x=>Math.atan(x)],
+ ['Crescimento de Richards',-6,6,'f(x) = (1 + e^(−x))^(−1/2)',x=>(1+Math.exp(-x))**(-.5)],
+ ['Ricker',-4,4,'f(x) = (1 − x²)e^(−x²/2)',x=>(1-x*x)*Math.exp(-x*x/2)],
+ ['Bessel',0,12,'f(x) = J₀(x), função de Bessel de primeira espécie, ordem zero',besselJ0],
+ ['Onda triangular',0,3,'f(x) = 1 − 4|x − piso(x) − 1/2|',x=>1-4*Math.abs(x-Math.floor(x)-.5)],
+ ['Weierstrass',0,1,'f(x) ≈ Σₙ₌₀⁶ (1/2)ⁿ cos(3ⁿπx), soma finita de 7 termos',weierstrassApprox]
+];
+function spelledMidi(m){
+ const spellings=[[0,0],[0,1],[1,0],[1,1],[2,0],[3,0],[3,1],[4,0],[4,1],[5,0],[5,1],[6,0]];
+ const [letter,alt]=spellings[((m%12)+12)%12];return {letter,alt,octave:Math.floor(m/12)-1,midi:m};
+}
+function intervalBetween(previous,note){
+ if(previous.midi===note.midi && previous.letter===note.letter && previous.alt===note.alt && previous.octave===note.octave)return '1j';
+ const degrees=note.octave*7+note.letter-previous.octave*7-previous.letter;
+ const direction=degrees===0?(note.midi>previous.midi?'a':'d'):(degrees>0?'a':'d');
+ const number=Math.abs(degrees)+1,simple=(number-1)%7+1,perfect=[1,4,5].includes(simple);
+ const baseline=[0,2,4,5,7,9,11][simple-1]+12*Math.floor((number-1)/7);
+ const semitones=(note.midi-previous.midi)*(direction==='a'?1:-1),delta=semitones-baseline;
+ const quality=(perfect?{0:'j',1:'aum','-1':'dim'}:{0:'ma','-1':'me',1:'aum','-2':'dim'})[delta];
+ if(!quality)throw Error('Não foi possível representar o intervalo gerado.');
+ return direction+number+quality;
+}
+function addMathMelodies(){
+ const groups={};
+ for(const mode of ['diatonic','chromatic']){
+  const group=document.createElement('optgroup');group.label=mode==='diatonic'?'Funções — diatônicas em Dó maior':'Funções — cromáticas';
+  document.getElementById('song').append(group);groups[mode]=group;
+ }
+ mathFunctions.forEach(([title,min,max,formula,fn],index)=>{
+  const count=index===11?16:48;
+  const samples=Array.from({length:count},(_,i)=>{const x=min+(max-min)*i/(count-1);return {x,y:fn(x,i)};});
+  const values=samples.map(sample=>index===11?Math.log1p(sample.y):sample.y);
+  const low=Math.min(...values),high=Math.max(...values);
+  if(!values.every(Number.isFinite)||high<=low)throw Error('Curva matemática inválida: '+title);
+  for(const mode of ['diatonic','chromatic']){
+   const normalized=values.map(value=>(value-low)/(high-low));
+   const major=[60,62,64,65,67,69,71,72,74,76,77,79,81,83,84];
+   const notes=normalized.map(value=>spelledMidi(mode==='diatonic'?major[Math.round(value*14)]:61+Math.round(value*23)));
+   const tokens=notes.slice(1).map((note,i)=>intervalBetween(notes[i],note));
+   const durations=notes.map((_,i)=>i===notes.length-1?1.5:.5);
+   const label=title+' — '+(mode==='diatonic'?'Diatônica':'Cromática');
+   const song={id:'math-'+(index+1)+'-'+mode,title:label,start:notes[0],tokens,durations,leadingRest:0,trailingRest:0,key:0,rhythm:rhythms.length,
+    math:{index:index+1,mode,formula,min,max,samples,expectedNotes:notes,mapping:index===11?'ln(1 + Fₙ)':'linear'}};
+   songs.push(song);rhythms.push([label+' · '+notes.length+' notas',durations,song]);
+   const option=document.createElement('option');option.value=song.id;option.textContent=(index+1)+'. '+title;groups[mode].append(option);
+  }
+ });
+}
 const L=['C','D','E','F','G','A','B'], base=[0,2,4,5,7,9,11];
 const pt={C:'Dó',D:'Ré',E:'Mi',F:'Fá',G:'Sol',A:'Lá',B:'Si'};
 const els={start:document.getElementById('start'),rhythm:document.getElementById('rhythm'),tempo:document.getElementById('tempo'),code:document.getElementById('code'),badge:document.getElementById('badge'),status:document.getElementById('status'),notes:document.getElementById('notes'),canvas:document.getElementById('chart'),cells:document.getElementById('rhythmCells'),rt:document.getElementById('rhythmTitle')};
@@ -121,6 +212,7 @@ for(let m=48;m<=84;m++){
   }
 }
 const defaultNote=[...els.start.options].find(o=>o.textContent==='Sol4');if(defaultNote)els.start.value=defaultNote.value;
+addMathMelodies();
 rhythms.forEach(([nm],i)=>{const o=document.createElement('option');o.value=i;o.textContent=nm;els.rhythm.append(o)});els.rhythm.value='31';
 let melody=[],cursor=0,playing=false,runId=0,audio=null,activeIndex=-1, turtlePosition=null,animationFrame=null;
 function intervalSemitones(number,quality){
@@ -390,14 +482,19 @@ function rhythmView(){
 const odeTokens=songs.find(song=>song.id==='ode').tokens;
 function refreshMelodyContext(){
  const tokens=els.code.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
- const song=!lastErrorKey && songs.find(song=>melody.length===song.tokens.length+1 && tokens.length===song.tokens.length && tokens.every((token,i)=>token===song.tokens[i]));
+ const matches=song=>melody.length===song.tokens.length+1 && tokens.length===song.tokens.length && tokens.every((token,i)=>token===song.tokens[i]);
+ const selected=document.getElementById('song').value;
+ const song=!lastErrorKey && (songs.find(song=>song.id===selected&&matches(song))||songs.find(matches));
  document.getElementById('song').value=song?song.id:'';
+ const mathInfo=document.getElementById('mathInfo');mathInfo.hidden=!song?.math;
+ if(song?.math){const m=song.math;mathInfo.textContent=m.formula+'. Domínio: ['+Number(m.min.toFixed(3))+'; '+Number(m.max.toFixed(3))+']. '+m.samples.length+' amostras; conversão '+m.mapping+' normalizada para '+(m.mode==='diatonic'?'notas de Dó maior entre Dó4 e Dó6.':'semitons entre Dó♯4 e Dó6, incluindo notas fora de Dó maior.')+' As alturas são arredondadas para notas; o ritmo é regular.';}
+ else mathInfo.textContent='';
  document.getElementById('demoContext').textContent=song?'Demonstração: “'+song.title+'”'+(song.id==='ode'?', da Nona Sinfonia de Beethoven':'')+', a partir de '+name(melody[0])+'. ':'';
  document.getElementById('investigation').innerHTML='<b>Investigação:</b> '+(song?'A melodia de “'+song.title+'” está carregada. Altere um intervalo e escute o resultado.':'Construa uma melodia, altere um intervalo e escute o resultado.')+' Depois escolha outro ritmo e compare as duas versões.';
 }
 function loadSong(id){
  const song=songs.find(song=>song.id===id);if(!song)return;
- stop();challengeOn.checked=false;keySig.value=String(song.key);
+ stop();document.getElementById('song').value=id;challengeOn.checked=false;keySig.value=String(song.key);
  const start=[...els.start.options].find(option=>{const n=JSON.parse(option.value);return n.letter===song.start.letter && n.alt===song.start.alt && n.octave===song.start.octave;});
  els.start.value=start.value;els.rhythm.value=String(song.rhythm);els.code.value=song.tokens.join(' ');
  lastCompletedTokens=[...song.tokens];refreshKeyInfo();prepare(null,false);
