@@ -26,6 +26,7 @@ Produz as notas:
 
 Os comandos representam:
 
+- `1j` — primeira justa (repetição da nota). Os atalhos `u` e `=` e as formas `a1j` e `d1j` são aceitos e convertidos no campo para `1j`.
 - `a2ma` — segunda maior ascendente.
 - `a2me` — segunda menor ascendente.
 - `d3me` — terça menor descendente.

@@ -157,5 +157,32 @@ if(require.main===module)(async () => {
   a.run('challengeOn.checked=false');a.input('xyz ');
   assert.equal(a.get('code').value,'xyz ');assert.match(a.get('status').textContent,/inválido/);
  });
+ await test('unison forms normalize to 1j and repeat exactly the same note', a => {
+  for(const token of ['1j','u','=','a1j','d1j','U','A1J','D1J','1J']){
+   a.run("lastCompletedTokens=[];els.code.value='';prepare()");
+   a.input(token);
+   assert.equal(a.get('code').value,'1j');assert.equal(a.run('melody.length'),2);
+   assert.equal(a.run('melody[1].midi'),60);assert.equal(a.run('melody[1].interval'),'1j');
+   assert.equal(a.run('errorCount'),0);
+  }
+ });
+ await test('typing 1 waits for j and then plays once', a => {
+  a.input('1');assert.equal(a.get('code').value,'1');assert.equal(a.run('melody.length'),1);assert.equal(a.run('errorCount'),0);
+  a.input('1j');assert.equal(a.run('melody.length'),2);assert.equal(a.run('noteCount'),1);
+  a.input('1j ');assert.equal(a.run('noteCount'),1);
+ });
+ await test('pasted aliases preserve separators, selection and directional augmented unisons', a => {
+  const raw='a2ma  u\td1j a1aum';a.get('code').value=raw;a.get('code').selectionStart=raw.length;a.get('code').selectionEnd=raw.length;
+  a.run('challengeOn.checked=false;prepare()');
+  assert.equal(a.get('code').value,'a2ma  1j\t1j a1aum');assert.equal(a.get('code').selectionStart,a.get('code').value.length);
+  assert.equal(a.run('melody[4].midi'),63);assert.equal(a.run('melody[4].interval'),'a1aum');
+  a.input('a1aum d1aum ');assert.equal(a.get('code').value,'a1aum d1aum ');
+  assert.equal(a.run('melody[1].midi'),61);assert.equal(a.run('melody[2].midi'),60);
+ });
+ await test('normalization and automatic rejection work in the same pasted sequence', a => {
+  a.input('u a2me = a2ma ');
+  assert.equal(a.get('code').value,'1j 1j a2ma ');assert.equal(a.run('melody.length'),4);
+  assert.equal(a.run('errorCount'),1);assert.equal(a.run('melody.at(-1).midi'),62);
+ });
  console.log(`${passed} tests passed.`);
 })().catch(error => {console.error(error);process.exitCode=1;});
