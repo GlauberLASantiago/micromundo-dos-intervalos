@@ -118,3 +118,13 @@ As silhuetas são amostradas e convertidas em alturas. Amostras consecutivas com
 Os 30 padrões rítmicos gerais foram preservados. Não há opções de ritmo que carreguem músicas ou funções. Ao final do menu estão Uniforme, Quadrática, Logarítmica, Cossenoidal, Fibonacci (intervalos) e Aleatória (exemplo fixo). Todas as opções alteram apenas os tempos, preservando as notas escritas e a nota inicial.
 
 Uniforme usa meio pulso por nota. Quadrática e Logarítmica aumentam os espaçamentos ao longo da sequência, de 0,25 a 1,25 pulsos; Cossenoidal varia suavemente entre esses limites. Fibonacci repete o ciclo 1, 1, 2, 3, 5, 8, 13, 21 dividido por 8. Aleatória usa sempre a mesma sequência determinística. Nos contornos, esses valores são multiplicados pela largura do trecho agrupado.
+
+## Missões de escalas e acordes
+
+Há escalas maiores e menores naturais ascendentes e descendentes, incluindo a oitava final. Os acordes Xmaj7, X7, Xm7, Xm7(b5), Xdim7, Xm(maj7) e X6 são construídos como arpejos ascendentes a partir da nota inicial escolhida. A avaliação confere quantidade, alturas e grafia dos graus. A restrição pela armadura é opcional e independente dessas missões. Começar novo desafio preserva a nota inicial nessas atividades.
+
+## Relatório em PDF
+
+Preencha o nome do aluno e clique em **Gerar relatório em PDF**. Na janela de impressão do navegador, selecione **Salvar como PDF**. O relatório contém o gráfico atual, os controles escolhidos, os intervalos, o resultado da missão e uma tabela de notas com início e duração em pulsos. A data e o horário usam America/Sao_Paulo. O rodapé traz o nome e o link do aplicativo. O relatório é preparado no navegador, sem enviar o nome do aluno a um servidor.
+
+Execute também `node tests/missions-report.cjs` para conferir as novas missões e o conteúdo do relatório. Esses testes não verificam o diálogo de impressão nem a aparência do PDF produzido pelo navegador.
