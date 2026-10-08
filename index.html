@@ -44,6 +44,8 @@ button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-vis
 .chart{width:100%;height:430px;border:1px solid var(--line);border-radius:13px;background:#fffdfa}
 .rhythm{background:#fff7e6;border:1px solid #ddcba9;padding:13px;border-radius:12px}
 .rhythmTitle{font-family:var(--font-title);font-weight:700;font-size:13px;color:var(--brown)}
+summary.rhythmTitle{cursor:pointer}
+summary.rhythmTitle:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .rhythmCells{display:flex;gap:6px;flex-wrap:wrap;align-items:end;margin-top:10px}
 .rhythmCells span{background:#F5D547;color:#783F04;border-radius:7px;min-width:37px;text-align:center;padding:7px 6px;font-size:12px;font-weight:600}
 .notes{font-size:13px;line-height:1.8;overflow-wrap:anywhere}.notes strong{color:#ab590b}.error{color:#a42619}
@@ -55,6 +57,8 @@ footer a{color:#F5D547;text-decoration:none;font-weight:600}footer a:hover{text-
 const viewPanel=document.querySelector('.viewport'),codeField=document.getElementById('code').closest('.field'),editorHeading=codeField.previousElementSibling,editorControls=codeField.nextElementSibling,workspace=document.createElement('div'),editor=document.createElement('section'),editorLayout=document.createElement('div');
 workspace.className='workspace';editor.className='card editor';editorLayout.className='editor-layout';
 document.querySelector('main').append(workspace);workspace.append(viewPanel,editor);editor.append(editorHeading,editorLayout);editorLayout.append(codeField,editorControls);
+const rhythmPanel=document.querySelector('.rhythm'),rhythmAccordion=document.createElement('details'),rhythmSummary=document.createElement('summary'),rhythmCells=rhythmPanel.querySelector('.rhythmCells'),rhythmHint=rhythmPanel.querySelector('.hint'),melodyNotes=document.querySelector('.notes');
+rhythmAccordion.className='rhythm';rhythmSummary.className='rhythmTitle';rhythmSummary.id='rhythmTitle';rhythmPanel.replaceWith(rhythmAccordion);rhythmAccordion.append(rhythmSummary,rhythmCells,rhythmHint,melodyNotes);
 const rhythms=[
 ['01 · Semínimas regulares',[1,1,1,1]],['02 · Colcheias regulares',[.5,.5,.5,.5,.5,.5,.5,.5]],['03 · Mínimas regulares',[2,2,2,2]],
 ['04 · Longa–curta',[1.5,.5,1.5,.5]],['05 · Curta–longa',[.5,1.5,.5,1.5]],['06 · Síncope simples',[.5,1,.5,1]],
