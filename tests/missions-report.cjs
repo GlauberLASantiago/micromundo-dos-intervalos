@@ -28,6 +28,7 @@ assert.match(a.get('challengeFeedback').className,/error/,'enharmonic notes must
 a.run("els.canvas.toDataURL=()=> 'data:image/png;base64,chart';challengeType.value='maj7';els.code.value='a3ma a3me a3ma';prepare()");
 a.get('reverb').value='35';a.get('challengeType').options=[{textContent:'X7M ou Xmaj7'}];a.get('challengeType').selectedIndex=0;
 const report=a.run(`reportHtml('<Aluno & teste>',new Date('2026-10-08T15:30:00Z'))`);
-for(const text of ['&lt;Aluno &amp; teste&gt;','08/10/2026','12:30:00','America/Sao_Paulo','data:image/png;base64,chart','35%','X7M ou Xmaj7','Desenvolvido com o app Micromundo dos intervalos','https://glauberlasantiago.github.io/micromundo-dos-intervalos/','a3ma a3me a3ma','Dó4','Si4'])assert.ok(report.includes(text),text);
+for(const text of ['&lt;Aluno &amp; teste&gt;','08/10/2026','12:30:00','data:image/png;base64,chart','X7M ou Xmaj7','Desenvolvido com o app Micromundo dos intervalos','https://glauberlasantiago.github.io/micromundo-dos-intervalos/','Dó4'])assert.ok(report.includes(text),text);
+for(const removed of ['Andamento','Ritmo / espaçamento','Reverberação','Resultado','Estado da sequência','Intervalos digitados','Pausa inicial','Pausa final','Notas e durações','<table'])assert.ok(!report.includes(removed),removed);
 assert.ok(!report.includes('<Aluno & teste>'),'report escapes student text');
 console.log('OK all eleven missions, transposition, spelling, restart, excess/wrong notes and PDF report contents/timezone.');

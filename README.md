@@ -125,7 +125,7 @@ Há escalas maiores e menores naturais ascendentes e descendentes, incluindo a o
 
 ## Relatório em PDF
 
-Preencha o nome do aluno e clique em **Gerar relatório em PDF**. Na janela de impressão do navegador, selecione **Salvar como PDF**. O relatório contém o gráfico atual, os controles escolhidos, os intervalos, o resultado da missão e uma tabela de notas com início e duração em pulsos. A data e o horário usam America/Sao_Paulo. O rodapé traz o nome e o link do aplicativo. O relatório é preparado no navegador, sem enviar o nome do aluno a um servidor.
+Preencha o nome do aluno e clique em **Gerar relatório em PDF**. Na janela de impressão do navegador, selecione **Salvar como PDF**. O relatório contém apenas o título, o subtítulo, o nome do aluno, a data e o horário, a melodia, a nota inicial, a restrição pela armadura, a tonalidade, a missão e o gráfico da melodia. A data e o horário usam America/Sao_Paulo. O rodapé traz o nome e o link do aplicativo. O relatório é preparado no navegador, sem enviar o nome do aluno a um servidor.
 
 Execute também `node tests/missions-report.cjs` para conferir as novas missões e o conteúdo do relatório. Esses testes não verificam o diálogo de impressão nem a aparência do PDF produzido pelo navegador.
 
