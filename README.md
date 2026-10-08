@@ -101,4 +101,4 @@ O Tartaruga Musical integra um conjunto de iniciativas de desenvolvimento de rec
 
 ## Verificação da lógica
 
-Com Node.js instalado, execute `node tests/challenges.cjs`. Os testes exercitam a validação, as missões e os eventos do aplicativo em um ambiente simulado; não verificam a reprodução audível no navegador.
+Com Node.js instalado, execute `node tests/challenges.cjs` e `node tests/fm.cjs`. Os testes exercitam a validação, as missões e os eventos do aplicativo em um ambiente simulado; não verificam a reprodução audível no navegador.

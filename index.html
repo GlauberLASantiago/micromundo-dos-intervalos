@@ -188,7 +188,40 @@ function prepare(overrideTokens=null,notify=true){
  }
 }
 function tempo(){return Math.min(220,Math.max(40,+els.tempo.value||100))}
-function tone(m,dur){if(!audio)audio=new (window.AudioContext||window.webkitAudioContext)();audio.resume();const osc=audio.createOscillator(),vol=audio.createGain();const now=audio.currentTime,secs=dur*60/tempo();osc.type='sine';osc.frequency.value=440*Math.pow(2,(m-69)/12);vol.gain.setValueAtTime(.0001,now);vol.gain.exponentialRampToValueAtTime(.19,now+.018);vol.gain.exponentialRampToValueAtTime(.0001,now+Math.max(.07,secs*.92));osc.connect(vol).connect(audio.destination);osc.start(now);osc.stop(now+Math.max(.08,secs))}
+async function playTone(frequenciaBase,audioContext,duracao=1.01){
+ if(!Number.isFinite(frequenciaBase)||frequenciaBase<=0)throw new RangeError('A frequência deve ser positiva.');
+ if(audioContext.state==='suspended')await audioContext.resume();
+ const carrier=audioContext.createOscillator(),modulator=audioContext.createOscillator();
+ const modGain=audioContext.createGain(),outputGain=audioContext.createGain();
+ const inicio=audioContext.currentTime,ataque=inicio+.01,fimModulacao=ataque+1;
+ const fimSustain=inicio+Math.max(.12,duracao),fimRelease=fimSustain+.2,fim=fimRelease+.005,minimo=.0001;
+ carrier.type='sine';modulator.type='sine';
+ carrier.frequency.setValueAtTime(frequenciaBase*1,inicio);
+ modulator.frequency.setValueAtTime(frequenciaBase*14,inicio);
+ modulator.connect(modGain);modGain.connect(carrier.frequency);
+ carrier.connect(outputGain);outputGain.connect(audioContext.destination);
+ // Pico de desvio de frequência de 1074 Hz, conforme o timbre informado.
+ modGain.gain.setValueAtTime(0,inicio);
+ modGain.gain.linearRampToValueAtTime(1074,ataque);
+ modGain.gain.exponentialRampToValueAtTime(minimo,fimModulacao);
+ modGain.gain.setValueAtTime(0,fimModulacao+.005);
+ // ADSR: ataque de 10 ms, decaimento até 50%, sustentação e release de 200 ms.
+ outputGain.gain.setValueAtTime(0,inicio);
+ outputGain.gain.linearRampToValueAtTime(.53,ataque);
+ outputGain.gain.exponentialRampToValueAtTime(.265,inicio+.12);
+ outputGain.gain.setValueAtTime(.265,fimSustain);
+ outputGain.gain.exponentialRampToValueAtTime(minimo,fimRelease);
+ outputGain.gain.linearRampToValueAtTime(0,fim);
+ carrier.onended=()=>{modulator.disconnect();modGain.disconnect();carrier.disconnect();outputGain.disconnect();};
+ carrier.start(inicio);modulator.start(inicio);carrier.stop(fim);modulator.stop(fim);
+}
+function tone(m,dur){
+ if(!audio)audio=new (window.AudioContext||window.webkitAudioContext)();
+ playTone(440*Math.pow(2,(m-69)/12),audio,dur*60/tempo()).catch(err=>{
+  console.warn('Não foi possível tocar a nota.',err);
+  els.status.textContent='Não foi possível tocar a nota. Clique em Testar som para liberar o áudio.';
+ });
+}
 // Sinal acústico breve para intervalos que infringem o desafio ou os limites aceitos.
 async function errorSound(){
  try{
