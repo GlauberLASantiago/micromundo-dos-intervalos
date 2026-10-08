@@ -31,7 +31,9 @@ function transposeCravo(score){
  a.run('let waits=[];waitRemaining=async(ms)=>{waits.push(ms);return true};tone=()=>{noteCount++}');
  for(const [id,file,count] of [['marcha','marcha-soldado.musicxml',24],['cravo','o-cravo-brigou-com-a-rosa.musicxml',32]]){
   a.get('song').value=id;a.get('song').dispatchEvent({type:'change',target:a.get('song')});
-  const expected=id==='cravo'?transposeCravo(score(file)):score(file);
+  const source=id==='cravo'?transposeCravo(score(file)):score(file);
+  const leading=id==='cravo'?2:0;
+  const expected={notes:source.notes.map((note,i)=>({...note,dur:.5,start:leading+i*.5})),total:leading+source.notes.length*.5+1};
   const actual=JSON.parse(a.run('JSON.stringify(melody.map(({letter,alt,octave,midi,dur,start})=>({letter,alt,octave,midi,dur,start})))'));
   assert.equal(actual.length,count);assert.deepEqual(actual,expected.notes);
   assert.equal(a.run('challengeOn.checked'),false);
@@ -44,8 +46,8 @@ function transposeCravo(score){
   const waits=JSON.parse(a.run('JSON.stringify(waits)'));
   const msPerBeat=a.run('60000/tempo()');
   if(id==='cravo')assert.equal(waits[0],2*msPerBeat);
-  assert.equal(waits.at(-1),2*msPerBeat);
-  const tail=a.run('rhythms[+els.rhythm.value][2].trailingRest');
+  assert.equal(waits.at(-1),1.5*msPerBeat);
+  const tail=a.run('matchingSong().trailingRest');
   const last=actual.at(-1);assert.equal(last.start+last.dur+tail,expected.total);
   a.run('waits=[]');
   if(id==='cravo'){
@@ -53,18 +55,17 @@ function transposeCravo(score){
    assert.ok(actual.some(n=>n.letter===6&&n.alt===-1));assert.ok(actual.some(n=>n.letter===2&&n.alt===-1));
    a.get('challengeOn').checked=true;a.get('challengeOn').dispatchEvent({type:'change'});assert.equal(a.run('lastErrorKey'),null);assert.equal(a.run('melody.length'),32);
   }
-  console.log('OK '+title+': pitches, durations and pauses match '+(id==='cravo'?'MusicXML transposed down a whole tone.':'MusicXML.'));
+  console.log('OK '+title+': pitches match '+(id==='cravo'?'MusicXML transposed down a whole tone.':'MusicXML.'));
  }
  const rhythmApp=app(false);
- rhythmApp.get('rhythm').value='32';rhythmApp.get('rhythm').dispatchEvent({type:'change'});
- assert.equal(rhythmApp.get('song').value,'cravo');
- assert.deepEqual(JSON.parse(rhythmApp.run('JSON.stringify(melody.map(n=>({letter:n.letter,alt:n.alt,octave:n.octave,midi:n.midi,dur:n.dur,start:n.start})))')),transposeCravo(score('o-cravo-brigou-com-a-rosa.musicxml')).notes);
- const cravoCode=rhythmApp.get('code').value;
- rhythmApp.get('rhythm').value='0';rhythmApp.get('rhythm').dispatchEvent({type:'change'});
- assert.equal(rhythmApp.get('code').value,cravoCode);assert.equal(rhythmApp.get('song').value,'cravo');
- rhythmApp.get('rhythm').value='31';rhythmApp.get('rhythm').dispatchEvent({type:'change'});assert.equal(rhythmApp.get('song').value,'marcha');
- rhythmApp.get('rhythm').value='30';rhythmApp.get('rhythm').dispatchEvent({type:'change'});assert.equal(rhythmApp.get('song').value,'ode');
- console.log('OK named rhythm options load their matching melody; generic patterns preserve notes.');
+ rhythmApp.run("loadSong('cravo')");
+ const originalCode=rhythmApp.get('code').value,originalStart=rhythmApp.get('start').value;
+ for(let index=0;index<6;index++){
+  rhythmApp.get('rhythm').value=String(index);rhythmApp.get('rhythm').dispatchEvent({type:'change'});
+  assert.equal(rhythmApp.get('code').value,originalCode);assert.equal(rhythmApp.get('start').value,originalStart);
+  assert.equal(rhythmApp.get('song').value,'cravo');
+ }
+ console.log('OK all six spacing options preserve the loaded melody.');
  a.run("loadSong('ode')");assert.equal(a.run('melody.length'),15);
  assert.match(a.get('demoContext').textContent,/Ode à Alegria/);
  a.input('a2ma ');assert.equal(a.get('song').value,'');assert.equal(a.get('demoContext').textContent,'');

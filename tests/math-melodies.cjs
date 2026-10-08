@@ -40,8 +40,9 @@ for(const index of [2,4,11,15,22,26,33]){
  const samples=catalog.find(song=>song.math.index===index).math.samples;
  assert.ok(samples.every((sample,i)=>Math.abs(sample.y-samples.at(-i-1).y)<1e-9),`symmetric curve ${index}`);
 }
-a.run("loadSong('math-9-chromatic')");a.get('rhythm').value=String(catalog[0].rhythm);a.get('rhythm').dispatchEvent({type:'change'});
-assert.equal(a.get('song').value,catalog[0].id);
+a.run("loadSong('math-9-chromatic')");const code=a.get('code').value;
+a.get('rhythm').value='2';a.get('rhythm').dispatchEvent({type:'change'});
+assert.equal(a.get('song').value,'math-9-chromatic');assert.equal(a.get('code').value,code);
 a.input('a2ma ');assert.equal(a.get('song').value,'');assert.equal(a.get('mathInfo').hidden,true);
 a.run("loadSong('marcha')");assert.equal(a.get('mathInfo').hidden,true);
 console.log('OK 36 functions / 72 melodies: intervals, pitches, diatonic/chromatic restrictions, formulas, special functions and selector transitions.');
