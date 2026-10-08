@@ -53,7 +53,7 @@ O aplicativo oferece:
 - Execução completa ou passo a passo.
 - Demonstração inicial com “Marcha Soldado”.
 - Seletor de músicas com “Marcha Soldado”, “O Cravo Brigou com a Rosa” e “Ode à Alegria”. As opções com esses nomes no seletor de ritmos também carregam a melodia correspondente; os padrões genéricos preservam as notas.
-- Notas, durações e pausas das duas cantigas preservadas a partir dos MusicXML fornecidos.
+- Notas, durações e pausas das duas cantigas importadas dos MusicXML fornecidos. “O Cravo Brigou com a Rosa” é apresentado um tom abaixo do original, em Si♭ maior, começando em Fá4; o MusicXML de referência permanece na tonalidade original.
 - Desafios de composição utilizando notas diatônicas de diferentes armaduras de clave.
 - Verificação automática dos intervalos produzidos.
 - Avisos visuais e sonoros quando uma nota não respeita as condições do desafio.

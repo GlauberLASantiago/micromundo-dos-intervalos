@@ -18,6 +18,12 @@ function score(file){
  for(const event of events){if(!event.rest)notes.push({...event,start:time});time+=event.dur;}
  return {notes,total:time};
 }
+function transposeCravo(score){
+ return {...score,notes:score.notes.map(note=>{
+  const absolute=note.octave*7+note.letter-1,letter=((absolute%7)+7)%7,octave=Math.floor(absolute/7),midi=note.midi-2;
+  return {...note,letter,octave,midi,alt:midi-(12*(octave+1)+[0,2,4,5,7,9,11][letter])};
+ })};
+}
 (async()=>{
  const a=app(false);
  assert.equal(a.get('song').value,'marcha');assert.equal(a.run('melody.length'),24);
@@ -25,7 +31,7 @@ function score(file){
  a.run('let waits=[];waitRemaining=async(ms)=>{waits.push(ms);return true};tone=()=>{noteCount++}');
  for(const [id,file,count] of [['marcha','marcha-soldado.musicxml',24],['cravo','o-cravo-brigou-com-a-rosa.musicxml',32]]){
   a.get('song').value=id;a.get('song').dispatchEvent({type:'change',target:a.get('song')});
-  const expected=score(file);
+  const expected=id==='cravo'?transposeCravo(score(file)):score(file);
   const actual=JSON.parse(a.run('JSON.stringify(melody.map(({letter,alt,octave,midi,dur,start})=>({letter,alt,octave,midi,dur,start})))'));
   assert.equal(actual.length,count);assert.deepEqual(actual,expected.notes);
   assert.equal(a.run('challengeOn.checked'),false);
@@ -42,12 +48,17 @@ function score(file){
   const tail=a.run('rhythms[+els.rhythm.value][2].trailingRest');
   const last=actual.at(-1);assert.equal(last.start+last.dur+tail,expected.total);
   a.run('waits=[]');
-  console.log('OK '+title+': every pitch, duration, onset and pause matches MusicXML.');
+  if(id==='cravo'){
+   assert.equal(a.get('keySig').value,'9');assert.equal(actual[0].midi,65);assert.equal(actual[0].letter,3);
+   assert.ok(actual.some(n=>n.letter===6&&n.alt===-1));assert.ok(actual.some(n=>n.letter===2&&n.alt===-1));
+   a.get('challengeOn').checked=true;a.get('challengeOn').dispatchEvent({type:'change'});assert.equal(a.run('lastErrorKey'),null);assert.equal(a.run('melody.length'),32);
+  }
+  console.log('OK '+title+': pitches, durations and pauses match '+(id==='cravo'?'MusicXML transposed down a whole tone.':'MusicXML.'));
  }
  const rhythmApp=app(false);
  rhythmApp.get('rhythm').value='32';rhythmApp.get('rhythm').dispatchEvent({type:'change'});
  assert.equal(rhythmApp.get('song').value,'cravo');
- assert.deepEqual(JSON.parse(rhythmApp.run('JSON.stringify(melody.map(n=>({letter:n.letter,alt:n.alt,octave:n.octave,midi:n.midi,dur:n.dur,start:n.start})))')),score('o-cravo-brigou-com-a-rosa.musicxml').notes);
+ assert.deepEqual(JSON.parse(rhythmApp.run('JSON.stringify(melody.map(n=>({letter:n.letter,alt:n.alt,octave:n.octave,midi:n.midi,dur:n.dur,start:n.start})))')),transposeCravo(score('o-cravo-brigou-com-a-rosa.musicxml')).notes);
  const cravoCode=rhythmApp.get('code').value;
  rhythmApp.get('rhythm').value='0';rhythmApp.get('rhythm').dispatchEvent({type:'change'});
  assert.equal(rhythmApp.get('code').value,cravoCode);assert.equal(rhythmApp.get('song').value,'cravo');
