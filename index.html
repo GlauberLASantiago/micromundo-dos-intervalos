@@ -25,6 +25,7 @@ h2{font-size:16px;margin:0 0 12px;color:var(--brown);font-weight:700}
 select,input,textarea{min-width:0;width:100%;font-size:14px;color:var(--ink);padding:10px 11px;border:1px solid #c5b8a7;border-radius:10px;background:#fffdfa}
 #code{display:block;width:100%;min-height:132px;height:132px;max-height:300px;resize:vertical;font:15px/1.65 ui-monospace,Consolas,monospace;white-space:pre-wrap;overflow-wrap:break-word;word-break:normal;overflow-x:hidden;overflow-y:auto;min-width:0}
 .hint{color:var(--sub);font-size:12px;margin:4px 0 10px}
+.reverb-control{min-width:0;border:1px solid #d4a54f;border-radius:10px;padding:8px 10px;background:#fff6df}.reverb-control label{display:flex;justify-content:space-between;gap:8px;font-size:13px;font-weight:600}.reverb-control input{width:100%;margin:6px 0 0;accent-color:#ab590b;cursor:pointer}
 .buttons{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
 button{border:0;border-radius:10px;padding:11px 13px;cursor:pointer;font-size:13px;font-weight:600;transition:background .15s,transform .15s}
 button:hover{transform:translateY(-1px)}
@@ -53,7 +54,7 @@ summary.rhythmTitle:focus-visible{outline:3px solid var(--gold);outline-offset:2
 footer{padding:4px 20px 30px;color:#fff9eb;font-size:13px;text-align:center;text-shadow:0 1px 8px rgba(0,0,0,.4)}
 footer .footer-inner{background:rgba(45,27,10,.8);border:1px solid rgba(245,213,71,.3);border-radius:14px;padding:18px 12px;line-height:1.9}
 footer a{color:#F5D547;text-decoration:none;font-weight:600}footer a:hover{text-decoration:underline}footer strong{font-weight:600}
-</style></head><body><header><h1>🐢 Micromundo dos intervalos</h1><p>Escolha a nota inicial, escreva uma sequência de intervalos ascendentes ou descendentes e descubra a melodia. As durações são determinadas por padrões rítmicos prontos, incluindo frases longas.</p></header><main><section class="card"><h2>1. Defina o ponto de partida</h2><div class="field"><label for="song">Música de demonstração</label><select id="song"><option value="" disabled>Melodia personalizada</option><option value="marcha">Marcha Soldado</option><option value="cravo">O Cravo Brigou com a Rosa</option><option value="ode">Ode à Alegria</option></select></div><div class="two"><div class="field"><label for="start">Nota inicial</label><select id="start"></select></div><div class="field"><label for="tempo">Andamento (BPM)</label><input id="tempo" type="number" min="40" max="220" value="108"></div></div><div class="field"><label for="rhythm">Ritmo pronto</label><select id="rhythm"></select><div class="hint">Opções com nome de música carregam também a melodia. Os demais padrões alteram apenas o ritmo.</div></div><div class="challengebox"><h2>🎯 Desafios diatônicos</h2><label><input type="checkbox" id="challengeOn"> Ativar restrição pela armadura de clave</label><div class="two"><div class="field"><label for="keySig">Armadura / tonalidade</label><select id="keySig"></select></div><div class="field"><label for="challengeType">Missão</label><select id="challengeType"><option value="free">Exploração: somente notas diatônicas</option><option value="four">Construir 4 notas diatônicas</option><option value="eight">Construir 8 notas diatônicas</option><option value="return">Criar 8 notas e retornar à inicial</option></select></div></div><p id="keyInfo">Ative para explorar apenas notas pertencentes à armadura.</p><div class="challenge-feedback" id="challengeFeedback" aria-live="polite"></div><button class="soft" id="newChallenge" type="button">✦ Começar novo desafio</button></div><h2>2. Escreva os intervalos</h2><div class="field"><label for="code">Digite os intervalos separados por espaços; o texto continua visualmente na linha seguinte</label><textarea id="code" rows="5" wrap="soft" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Sequência de intervalos separados por espaços">1j d3me d3ma 1j a3ma a3me 1j 1j d3me d2ma a2ma a2me 1j 1j d3me a4j 1j a2ma d2ma d2ma d2me d2ma d2ma</textarea><div class="hint"><span id="demoContext"></span><code>1j</code> repete a mesma nota. Os atalhos <code>u</code> e <code>=</code> são convertidos para <code>1j</code>. Ao completar um comando, a sequência é atualizada automaticamente. Espaço ou Enter finaliza o comando em edição.</div></div><div class="buttons"><button id="play" class="primary">▶ Tocar melodia</button><button id="step" class="soft">⏭ Próxima nota</button><button id="stop" class="neutral">■ Parar</button><button id="testSound" class="soft" type="button">🔊 Testar som de erro</button><button id="reset" class="neutral">↺ Reiniciar</button></div><div class="help"><h2>Vocabulário</h2><p><code>1j</code> primeira justa: repete a nota. Também aceita <code>u</code> e <code>=</code>, exibidos como <code>1j</code>.</p><p><code>a</code> ascendente · <code>d</code> descendente</p><p><code>2ma</code> segunda maior (2 semitons) · <code>2me</code> segunda menor (1 semitom)</p><p>A primeira aumentada também é aceita: <code>a1aum</code> (Dó → Dó♯) e <code>d1aum</code> (Dó → Dó♭). São aceitos intervalos simples e compostos: <code>a9ma</code>, <code>d10me</code>, <code>a11aum</code>, <code>a13ma</code>, <code>a15j</code> etc. Qualidades: <code>ma</code> (maior), <code>me</code> (menor), <code>j</code> (justo), <code>aum</code> (aumentado) e <code>dim</code> (diminuto).</p><p>Exemplo descendente: <code>d3me</code> = terça menor para baixo.</p></div><div class="example" id="investigation"><b>Investigação:</b> construa uma melodia, altere um intervalo e escute o resultado. Depois escolha outro ritmo e compare as duas versões.</div></section><section class="card viewport"><div class="topline"><span class="pill" id="badge">Pronto</span><span class="status" id="status">A nota inicial também é tocada.</span></div><canvas class="chart" id="chart" width="900" height="430" aria-label="Gráfico de alturas por tempo"></canvas><div class="rhythm"><div class="rhythmTitle" id="rhythmTitle">Ritmo</div><div class="rhythmCells" id="rhythmCells"></div><div class="hint">Cada célula indica a duração de uma nota, em pulsos. Quando há mais notas que células, o padrão recomeça. Pausas iniciais e finais indicadas são executadas uma vez na reprodução completa.</div></div><div class="notes" id="notes" aria-live="polite"></div></section></main><footer><div class="footer-inner">Desenvolvido pelo <strong>professor Dr. Glauber Santiago</strong> — DAC/UFSCar<br>Apoio: <a href="https://grupohorizonte.ufscar.br/" target="_blank" rel="noopener noreferrer">Grupo de Pesquisa Horizonte ↗</a> • <a href="https://servidores.ufscar.br/glauber/" target="_blank" rel="noopener noreferrer">🌐 Website do Docente ↗</a><br><small>Micromundo inspirado em Seymour Papert e na linguagem LOGO. Grafia musical preservada por graus diatônicos e alterações; reprodução em temperamento igual.</small></div></footer><script>
+</style></head><body><header><h1>🐢 Micromundo dos intervalos</h1><p>Escolha a nota inicial, escreva uma sequência de intervalos ascendentes ou descendentes e descubra a melodia. As durações são determinadas por padrões rítmicos prontos, incluindo frases longas.</p></header><main><section class="card"><h2>1. Defina o ponto de partida</h2><div class="field"><label for="song">Música de demonstração</label><select id="song"><option value="" disabled>Melodia personalizada</option><option value="marcha">Marcha Soldado</option><option value="cravo">O Cravo Brigou com a Rosa</option><option value="ode">Ode à Alegria</option></select></div><div class="two"><div class="field"><label for="start">Nota inicial</label><select id="start"></select></div><div class="field"><label for="tempo">Andamento (BPM)</label><input id="tempo" type="number" min="40" max="220" value="108"></div></div><div class="field"><label for="rhythm">Ritmo pronto</label><select id="rhythm"></select><div class="hint">Opções com nome de música carregam também a melodia. Os demais padrões alteram apenas o ritmo.</div></div><div class="challengebox"><h2>🎯 Desafios diatônicos</h2><label><input type="checkbox" id="challengeOn"> Ativar restrição pela armadura de clave</label><div class="two"><div class="field"><label for="keySig">Armadura / tonalidade</label><select id="keySig"></select></div><div class="field"><label for="challengeType">Missão</label><select id="challengeType"><option value="free">Exploração: somente notas diatônicas</option><option value="four">Construir 4 notas diatônicas</option><option value="eight">Construir 8 notas diatônicas</option><option value="return">Criar 8 notas e retornar à inicial</option></select></div></div><p id="keyInfo">Ative para explorar apenas notas pertencentes à armadura.</p><div class="challenge-feedback" id="challengeFeedback" aria-live="polite"></div><button class="soft" id="newChallenge" type="button">✦ Começar novo desafio</button></div><h2>2. Escreva os intervalos</h2><div class="field"><label for="code">Digite os intervalos separados por espaços; o texto continua visualmente na linha seguinte</label><textarea id="code" rows="5" wrap="soft" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Sequência de intervalos separados por espaços">1j d3me d3ma 1j a3ma a3me 1j 1j d3me d2ma a2ma a2me 1j 1j d3me a4j 1j a2ma d2ma d2ma d2me d2ma d2ma</textarea><div class="hint"><span id="demoContext"></span><code>1j</code> repete a mesma nota. Os atalhos <code>u</code> e <code>=</code> são convertidos para <code>1j</code>. Ao completar um comando, a sequência é atualizada automaticamente. Espaço ou Enter finaliza o comando em edição.</div></div><div class="buttons"><button id="play" class="primary">▶ Tocar melodia</button><button id="step" class="soft">⏭ Próxima nota</button><button id="stop" class="neutral">■ Parar</button><div class="reverb-control"><label for="reverb">Reverberação <output id="reverbValue" for="reverb">25%</output></label><input id="reverb" type="range" min="0" max="100" step="1" value="25" aria-label="Intensidade da reverberação"></div><button id="reset" class="neutral">↺ Reiniciar</button></div><div class="help"><h2>Vocabulário</h2><p><code>1j</code> primeira justa: repete a nota. Também aceita <code>u</code> e <code>=</code>, exibidos como <code>1j</code>.</p><p><code>a</code> ascendente · <code>d</code> descendente</p><p><code>2ma</code> segunda maior (2 semitons) · <code>2me</code> segunda menor (1 semitom)</p><p>A primeira aumentada também é aceita: <code>a1aum</code> (Dó → Dó♯) e <code>d1aum</code> (Dó → Dó♭). São aceitos intervalos simples e compostos: <code>a9ma</code>, <code>d10me</code>, <code>a11aum</code>, <code>a13ma</code>, <code>a15j</code> etc. Qualidades: <code>ma</code> (maior), <code>me</code> (menor), <code>j</code> (justo), <code>aum</code> (aumentado) e <code>dim</code> (diminuto).</p><p>Exemplo descendente: <code>d3me</code> = terça menor para baixo.</p></div><div class="example" id="investigation"><b>Investigação:</b> construa uma melodia, altere um intervalo e escute o resultado. Depois escolha outro ritmo e compare as duas versões.</div></section><section class="card viewport"><div class="topline"><span class="pill" id="badge">Pronto</span><span class="status" id="status">A nota inicial também é tocada.</span></div><canvas class="chart" id="chart" width="900" height="430" aria-label="Gráfico de alturas por tempo"></canvas><div class="rhythm"><div class="rhythmTitle" id="rhythmTitle">Ritmo</div><div class="rhythmCells" id="rhythmCells"></div><div class="hint">Cada célula indica a duração de uma nota, em pulsos. Quando há mais notas que células, o padrão recomeça. Pausas iniciais e finais indicadas são executadas uma vez na reprodução completa.</div></div><div class="notes" id="notes" aria-live="polite"></div></section></main><footer><div class="footer-inner">Desenvolvido pelo <strong>professor Dr. Glauber Santiago</strong> — DAC/UFSCar<br>Apoio: <a href="https://grupohorizonte.ufscar.br/" target="_blank" rel="noopener noreferrer">Grupo de Pesquisa Horizonte ↗</a> • <a href="https://servidores.ufscar.br/glauber/" target="_blank" rel="noopener noreferrer">🌐 Website do Docente ↗</a><br><small>Micromundo inspirado em Seymour Papert e na linguagem LOGO. Grafia musical preservada por graus diatônicos e alterações; reprodução em temperamento igual.</small></div></footer><script>
 const viewPanel=document.querySelector('.viewport'),codeField=document.getElementById('code').closest('.field'),editorHeading=codeField.previousElementSibling,editorControls=codeField.nextElementSibling,workspace=document.createElement('div'),editor=document.createElement('section'),editorLayout=document.createElement('div');
 workspace.className='workspace';editor.className='card editor';editorLayout.className='editor-layout';
 document.querySelector('main').append(workspace);workspace.append(viewPanel,editor);editor.append(editorHeading,editorLayout);editorLayout.append(codeField,editorControls);
@@ -239,6 +240,34 @@ function prepare(overrideTokens=null,notify=true,rejectInput=false){
  }
 }
 function tempo(){return Math.min(220,Math.max(40,+els.tempo.value||100))}
+let reverbLevel=25;
+const reverbChains=new WeakMap();
+function updateReverb(chain,context){
+ const mix=reverbLevel/100;
+ chain.dry.gain.setTargetAtTime(1-mix*.5,context.currentTime,.02);
+ chain.wet.gain.setTargetAtTime(mix*.5,context.currentTime,.02);
+}
+function getReverbChain(context){
+ let chain=reverbChains.get(context);if(chain)return chain;
+ const input=context.createGain(),dry=context.createGain(),wet=context.createGain(),convolver=context.createConvolver();
+ const length=Math.ceil(context.sampleRate*2),impulse=context.createBuffer(2,length,context.sampleRate);
+ for(let channel=0;channel<2;channel++){
+  const data=impulse.getChannelData(channel);
+  for(let i=0;i<length;i++)data[i]=(Math.random()*2-1)*Math.exp(-4*i/length);
+ }
+ convolver.buffer=impulse;
+ input.connect(dry);dry.connect(context.destination);
+ input.connect(convolver);convolver.connect(wet);wet.connect(context.destination);
+ chain={input,dry,wet,convolver};
+ dry.gain.setValueAtTime(1-reverbLevel/200,context.currentTime);
+ wet.gain.setValueAtTime(reverbLevel/200,context.currentTime);
+ reverbChains.set(context,chain);return chain;
+}
+function setReverbLevel(value){
+ reverbLevel=Math.min(100,Math.max(0,Number(value)||0));
+ document.getElementById('reverbValue').textContent=reverbLevel+'%';
+ if(audio && reverbChains.has(audio))updateReverb(reverbChains.get(audio),audio);
+}
 async function playTone(frequenciaBase,audioContext,duracao=1.01){
  if(!Number.isFinite(frequenciaBase)||frequenciaBase<=0)throw new RangeError('A frequência deve ser positiva.');
  if(audioContext.state==='suspended')await audioContext.resume();
@@ -250,7 +279,7 @@ async function playTone(frequenciaBase,audioContext,duracao=1.01){
  carrier.frequency.setValueAtTime(frequenciaBase*1,inicio);
  modulator.frequency.setValueAtTime(frequenciaBase*14,inicio);
  modulator.connect(modGain);modGain.connect(carrier.frequency);
- carrier.connect(outputGain);outputGain.connect(audioContext.destination);
+ carrier.connect(outputGain);outputGain.connect(getReverbChain(audioContext).input);
  // Pico de desvio de frequência de 1074 Hz, conforme o timbre informado.
  modGain.gain.setValueAtTime(0,inicio);
  modGain.gain.linearRampToValueAtTime(1074,ataque);
@@ -270,7 +299,7 @@ function tone(m,dur){
  if(!audio)audio=new (window.AudioContext||window.webkitAudioContext)();
  playTone(440*Math.pow(2,(m-69)/12),audio,dur*60/tempo()).catch(err=>{
   console.warn('Não foi possível tocar a nota.',err);
-  els.status.textContent='Não foi possível tocar a nota. Clique em Testar som para liberar o áudio.';
+  els.status.textContent='Não foi possível tocar a nota. Clique em Tocar melodia para liberar o áudio.';
  });
 }
 // Sinal acústico breve para intervalos que infringem o desafio ou os limites aceitos.
@@ -279,7 +308,7 @@ async function errorSound(){
   if(!audio) audio=new (window.AudioContext||window.webkitAudioContext)();
   // Aguarda a ativação do áudio antes de agendar o ruído.
   if(audio.state!=='running') await audio.resume();
-  if(audio.state!=='running')throw new Error('O navegador bloqueou o áudio. Clique em Testar som para liberá-lo.');
+  if(audio.state!=='running')throw new Error('O navegador bloqueou o áudio. Clique em Tocar melodia para liberá-lo.');
   const now=audio.currentTime, duration=.34;
   const buffer=audio.createBuffer(1,Math.ceil(audio.sampleRate*duration),audio.sampleRate);
   const data=buffer.getChannelData(0);
@@ -294,7 +323,7 @@ async function errorSound(){
   noise.start(now);noise.stop(now+duration);
  }catch(err){
   console.warn('Não foi possível emitir o sinal de erro.',err);
-  els.status.textContent+=' (Som bloqueado: clique em Testar som.)';
+  els.status.textContent+=' (Som bloqueado: clique em Tocar melodia.)';
  }
 }
 // A travessia dura o valor rítmico da nota anterior. O som seguinte só começa na chegada.
@@ -408,7 +437,7 @@ function draw(){
 }
 document.getElementById('song').addEventListener('change',event=>loadSong(event.target.value));
 document.getElementById('play').addEventListener('click',play);
-document.getElementById('testSound').addEventListener('click',errorSound);
+document.getElementById('reverb').addEventListener('input',event=>setReverbLevel(event.target.value));
 document.getElementById('step').addEventListener('click',step);
 document.getElementById('stop').addEventListener('click',stop);
 document.getElementById('reset').addEventListener('click',()=>{stop();melody=[];cursor=0;prepare()});

@@ -45,6 +45,7 @@ O aplicativo oferece:
 - Suporte a intervalos simples e compostos, até a 22ª.
 - Preservação da grafia enarmônica, distinguindo, por exemplo, Ré♯ de Mi♭.
 - Reprodução sonora automática durante a digitação.
+- Controle de reverberação de 0% a 100%, inicialmente em 25%, ajustável durante a reprodução.
 - Representação gráfica do percurso melódico.
 - Tartaruga animada que se desloca entre as notas.
 - Padrões rítmicos predefinidos, incluindo sequências longas.
