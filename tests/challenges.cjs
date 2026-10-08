@@ -13,7 +13,7 @@ function app(reset=true) {
     const el = {id, value: '', checked: false, textContent: '', className: '', options: [], width: 900, height: 430,
       classList: {add() {}, remove() {}},
       append(...items) {this.options.push(...items); if (!this.value && items[0]?.value) this.value = items[0].value;},
-      replaceWith() {}, replaceChildren() {}, focus() {}, getContext: () => canvas,
+      replaceWith() {}, replaceChildren() {}, focus() {}, setSelectionRange(start,end) {this.selectionStart=start;this.selectionEnd=end;}, getContext: () => canvas,
       closest: () => ({previousElementSibling: {}, nextElementSibling: {}}),
       querySelector: selector => get(selector),
       addEventListener(event, fn) {(listeners[event] ??= []).push(fn);},
@@ -33,11 +33,12 @@ function app(reset=true) {
 async function test(label, check) {await check(app());passed++;console.log('OK '+label);}
 module.exports={app};
 if(require.main===module)(async () => {
- await test('preserves valid prefix and identifies offending interval', a => {
+ await test('rejects invalid input and preserves valid prefix', a => {
   a.input('a2ma a2me ');
   assert.equal(a.run('melody.length'),2);assert.match(a.get('status').textContent,/posição 2/);
   assert.equal(a.run('errorCount'),1);
-  a.input('a2ma a2me a2ma ');assert.equal(a.run('errorCount'),1);
+  assert.equal(a.get('code').value,'a2ma ');
+  a.input(a.get('code').value+'a2ma ');assert.equal(a.run('errorCount'),1);assert.equal(a.run('melody.length'),3);
   a.get('code').dispatchEvent({type:'change'});assert.equal(a.run('errorCount'),1);
  });
  await test('correction clears error and a later recurrence sounds again', a => {
@@ -47,7 +48,7 @@ if(require.main===module)(async () => {
  await test('complete commands validate before a space; space does not duplicate audio', a => {
   a.input('a2ma');assert.equal(a.run('melody.length'),2);assert.equal(a.run('noteCount'),1);
   a.input('a2ma ');assert.equal(a.run('noteCount'),1);
-  a.input('a2ma a2me');assert.equal(a.run('errorCount'),1);a.input('a2ma a2me ');assert.equal(a.run('errorCount'),1);
+  a.input('a2ma a2me');assert.equal(a.run('errorCount'),1);assert.equal(a.get('code').value,'a2ma ');a.input(a.get('code').value+' ');assert.equal(a.run('errorCount'),1);
  });
  await test('incomplete commands wait; finalizing an incomplete command reports an error', a => {
   for(const value of ['a','a2','a2m'])a.input(value);
@@ -86,7 +87,7 @@ if(require.main===module)(async () => {
   }
  });
  await test('disabling challenge removes diatonic error and hides challenge-only feedback', a => {
-  a.input('a2me ');a.get('challengeOn').checked=false;a.get('challengeOn').dispatchEvent({type:'change'});
+  a.run("els.code.value='a2me ';prepare()");a.get('challengeOn').checked=false;a.get('challengeOn').dispatchEvent({type:'change'});
   assert.equal(a.run('melody.length'),2);assert.equal(a.get('challengeFeedback').textContent,'');
   a.input('xyz ');assert.match(a.get('status').textContent,/inválido/);assert.equal(a.get('challengeFeedback').textContent,'');
  });
@@ -96,9 +97,10 @@ if(require.main===module)(async () => {
    a.get('code').value='a1j '+code;assert.equal(a.run('prepare()'),false);assert.equal(a.run('melody.length'),2);
   }
  });
- await test('play and step both block invalid full input and notify only once', async a => {
+ await test('play and step reject invalid full input without playing it', async a => {
   a.get('code').value='a2me';await a.run('step()');assert.equal(a.run('noteCount'),0);assert.equal(a.run('errorCount'),1);
-  await a.run('play()');assert.equal(a.run('noteCount'),0);assert.equal(a.run('errorCount'),1);
+  assert.equal(a.get('code').value,'');a.get('code').value='a2me';
+  await a.run('play()');assert.equal(a.run('noteCount'),0);assert.equal(a.run('errorCount'),2);assert.equal(a.get('code').value,'');
  });
  await test('step cannot play a stale preview while an invalid token is in the editor', async a => {
   a.input('a2ma ');a.get('code').value='a2ma a2m';const before=a.run('noteCount');
@@ -129,6 +131,31 @@ if(require.main===module)(async () => {
   a.get('challengeOn').checked=true;a.get('challengeOn').dispatchEvent({type:'change'});
   assert.equal(a.get('demoContext').textContent,'');
   assert.doesNotMatch(a.get('investigation').innerHTML,/Ode à Alegria/);
+ });
+ await test('pasted invalid commands are removed and valid suffix is recalculated', a => {
+  a.input('a2ma a2me a2ma ');
+  assert.equal(a.get('code').value,'a2ma a2ma ');assert.equal(a.run('melody.length'),3);
+  assert.equal(a.run('errorCount'),1);assert.equal(a.run('lastCompletedTokens.length'),2);
+ });
+ await test('multiple invalid commands in one paste produce one alert', a => {
+  a.input('a2ma xyz a2me a2ma ');
+  assert.equal(a.get('code').value,'a2ma a2ma ');assert.equal(a.run('errorCount'),1);
+  assert.match(a.get('status').textContent,/2 comandos/);
+ });
+ await test('pending suffix and cursor are preserved after rejecting a middle token', a => {
+  a.get('code').selectionStart=11;
+  a.input('a2ma a2me a2m');
+  assert.equal(a.get('code').value,'a2ma a2m');assert.equal(a.get('code').selectionStart,6);
+  assert.equal(a.run('melody.length'),2);
+ });
+ await test('changing the signature does not erase existing composition', a => {
+  a.run("els.code.value='a2ma a2ma';prepare()");
+  a.get('keySig').value='5';a.get('keySig').dispatchEvent({type:'change'});
+  assert.equal(a.get('code').value,'a2ma a2ma');assert.match(a.get('status').textContent,/nota inicial/);
+ });
+ await test('unrestricted mode keeps invalid text available for correction', a => {
+  a.run('challengeOn.checked=false');a.input('xyz ');
+  assert.equal(a.get('code').value,'xyz ');assert.match(a.get('status').textContent,/inválido/);
  });
  console.log(`${passed} tests passed.`);
 })().catch(error => {console.error(error);process.exitCode=1;});

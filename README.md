@@ -66,7 +66,7 @@ As missões exigem exatamente 4 ou 8 notas, contando a nota inicial. Na missão 
 
 A restrição diatônica considera a grafia da armadura, e não apenas a equivalência sonora entre notas enarmônicas.
 
-Comandos completos são validados imediatamente. Prefixos ainda em edição aguardam sua conclusão; espaço, Enter, saída do campo ou reprodução finalizam a validação. Quando um comando é inválido, o aplicativo indica o primeiro erro e preserva as notas válidas anteriores no gráfico. O aviso sonoro ocorre uma vez por erro e volta a ocorrer se o erro reaparecer após uma correção. Tocar e avançar uma nota verificam todo o texto antes de reproduzir a melodia.
+Comandos completos são validados imediatamente. Prefixos ainda em edição aguardam sua conclusão; espaço, Enter, saída do campo ou reprodução finalizam a validação. Quando um comando é inválido, o aplicativo indica o primeiro erro e preserva as notas válidas anteriores no gráfico. Com a restrição ativada, comandos inválidos digitados ou colados são removidos automaticamente, mantendo e reavaliando os demais comandos. O aviso sonoro ocorre uma vez por tentativa recusada. Uma alteração da armadura ou da nota inicial apenas revalida o texto existente, permitindo ajustá-lo sem apagar a composição. Tocar e avançar uma nota verificam todo o texto antes de reproduzir a melodia.
 
 Essas restrições funcionam como elementos para a investigação musical, incentivando o estudante a experimentar diferentes soluções.
 

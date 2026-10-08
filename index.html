@@ -165,7 +165,7 @@ function parse(overrideTokens=null){
    out.push({...n,interval:token});
   }
  }catch(err){
-  err.partial=timedNotes(out);
+  err.position=position;err.partial=timedNotes(out);
   err.key=JSON.stringify([els.start.value,challengeOn.checked,keySig.value,tokens.slice(0,position).map(t=>t.toLowerCase()),err.message]);
   throw err;
  }
@@ -173,13 +173,39 @@ function parse(overrideTokens=null){
 }
 function stop(){playing=false;runId++;if(animationFrame!==null){cancelAnimationFrame(animationFrame);animationFrame=null;}activeIndex=-1;turtlePosition=null;els.badge.textContent='Parado';draw()}
 let lastErrorKey=null;
-function prepare(overrideTokens=null,notify=true){
+function removeInputToken(position){
+ const raw=els.code.value,matches=[...raw.matchAll(/\S+/g)],token=matches[position-1];
+ if(!token)return;
+ const start=token.index,end=position<matches.length?matches[position].index:raw.length;
+ const cursor=els.code.selectionStart??raw.length;
+ els.code.value=raw.slice(0,start)+raw.slice(end);
+ const nextCursor=cursor<=start?cursor:cursor>=end?cursor-(end-start):start;
+ els.code.setSelectionRange(nextCursor,nextCursor);
+}
+function prepare(overrideTokens=null,notify=true,rejectInput=false){
  cursor=0;activeIndex=-1;turtlePosition=null;
+ const rejected=[];let tokens=overrideTokens;
  try{
-  melody=parse(overrideTokens);lastErrorKey=null;
+  // Retira somente comandos inválidos; o restante é reavaliado a partir do percurso aceito.
+  while(true){
+   try{melody=parse(tokens);break;}catch(err){
+    if(!rejectInput||!challengeOn.checked||!err.position)throw err;
+    removeInputToken(err.position);rejected.push(err.message);
+    if(tokens!==null){tokens=[...tokens];tokens.splice(err.position-1,1);}
+   }
+  }
+  lastErrorKey=null;
+  if(rejectInput)lastCompletedTokens=tokens??els.code.value.trim().split(/\s+/).filter(Boolean);
   els.badge.textContent='Pronto';els.status.classList.remove('error');
   els.status.textContent=melody.length+' notas, incluindo a inicial.';
-  draw();missionFeedback();return true;
+  draw();missionFeedback();
+  if(rejected.length){
+   const message=rejected[0]+' Comando removido.'+(rejected.length>1?' '+rejected.length+' comandos inválidos foram removidos.':'');
+   els.badge.textContent='Intervalo recusado';els.status.textContent=message;els.status.classList.add('error');
+   challengeFeedback.textContent=message;challengeFeedback.className='challenge-feedback error';
+   if(notify)errorSound();return false;
+  }
+  return true;
  }catch(err){
   const isNew=err.key!==lastErrorKey;lastErrorKey=err.key;
   melody=err.partial||[];els.badge.textContent='Verifique os intervalos';
@@ -273,7 +299,7 @@ function waitRemaining(ms,id){return new Promise(resolve=>{
  animationFrame=requestAnimationFrame(frame);
 })}
 async function play(){
- stop();if(!prepare())return;
+ stop();if(!prepare(null,true,true))return;
  playing=true;const id=++runId;els.badge.textContent='Executando';
  if(melody[0].start>0){els.status.textContent='Pausa inicial: '+melody[0].start+' pulso(s)';if(!await waitRemaining(melody[0].start*60000/tempo(),id))return;}
  for(let i=0;i<melody.length;i++){
@@ -289,7 +315,7 @@ async function play(){
   turtlePosition={time:melody[melody.length-1].start,midi:melody[melody.length-1].midi};draw();}
 }
 async function step(){
- const nextCursor=cursor;stop();if(!prepare())return;cursor=nextCursor<melody.length?nextCursor:0;
+ const nextCursor=cursor;stop();if(!prepare(null,true,true))return;cursor=nextCursor<melody.length?nextCursor:0;
  playing=true;const id=++runId;
  const index=cursor,n=melody[index];
  if(index>0){
@@ -378,7 +404,7 @@ function updateTypingPreview(){
  // Guarda os comandos completos para tocar apenas a nova nota acrescentada.
  lastCompletedTokens=[...complete];
  stop();
- const ok=prepare(complete);
+ const ok=prepare(complete,true,true);
  if(ok){
    if(pending){
     els.status.textContent=melody.length+' notas válidas. Termine o intervalo em edição.';
@@ -419,6 +445,6 @@ document.getElementById('newChallenge').addEventListener('click',()=>{
  els.start.value=(tonic||candidates[0]).value;
  refreshKeyInfo();prepare();els.code.focus();
 });
-els.code.addEventListener('change',()=>{stop();prepare()});
+els.code.addEventListener('change',()=>{stop();prepare(null,true,true)});
 loadSong('marcha');
 </script></body></html>
