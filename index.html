@@ -80,7 +80,7 @@ const alterations=Array.from({length:15},(_,i)=>{let out=Array(7).fill(0);const 
 signatureNames.forEach((label,i)=>{let o=document.createElement('option');o.value=i;o.textContent=label;keySig.append(o)});
 function allowedNote(n){return !challengeOn.checked || n.alt===alterations[+keySig.value][n.letter]}
 function refreshKeyInfo(){const a=alterations[+keySig.value];keyInfo.textContent=challengeOn.checked?'Notas permitidas: '+L.map((l,i)=>pt[l]+(a[i]>0?'♯':a[i]<0?'♭':'')).join(' · ')+'. A grafia enarmônica também conta.':'Ative para explorar apenas notas pertencentes à armadura.'}
-function missionFeedback(){if(!challengeOn.checked){challengeFeedback.textContent='';return;}const ct=challengeType.value,count=melody.length;const goal=ct==='four'?4:8;let message='';if(ct==='free')message=count+' nota(s) diatônica(s). Explore livremente.';else if(count<goal)message=`${count}/${goal} notas. Continue construindo!`;else if(ct==='return' && (melody[goal-1].letter!==melody[0].letter || melody[goal-1].alt!==melody[0].alt || melody[goal-1].octave!==melody[0].octave))message='Você chegou a 8 notas, mas a última ainda não voltou à nota inicial.';else message='✓ Desafio concluído! Experimente outro percurso.';challengeFeedback.textContent=message;challengeFeedback.className='challenge-feedback '+(message.startsWith('✓')?'good':'')}
+function missionFeedback(){if(!challengeOn.checked){challengeFeedback.textContent='';challengeFeedback.className='challenge-feedback';return;}const ct=challengeType.value,count=melody.length;const goal=ct==='four'?4:8;let message='';if(ct==='free')message=count+' nota(s) diatônica(s). Explore livremente.';else if(count<goal)message=`${count}/${goal} notas. Continue construindo!`;else if(ct==='return' && (melody[goal-1].letter!==melody[0].letter || melody[goal-1].alt!==melody[0].alt || melody[goal-1].octave!==melody[0].octave))message='Você chegou a 8 notas, mas a última ainda não voltou à nota inicial.';else message='✓ Desafio concluído! Experimente outro percurso.';challengeFeedback.textContent=message;challengeFeedback.className='challenge-feedback '+(message.startsWith('✓')?'good':'')}
 const pc=(x)=>((x%12)+12)%12;
 function name(n){return pt[L[n.letter]]+(n.alt>0?'♯'.repeat(n.alt):'♭'.repeat(-n.alt))+n.octave}
 function midi(n){return 12*(n.octave+1)+base[n.letter]+n.alt}
@@ -284,7 +284,17 @@ function updateTypingPreview(){
 els.code.addEventListener('input',updateTypingPreview);
 els.code.addEventListener('keydown',e=>{if(e.key===' ' || e.key==='Enter'){try{if(!audio)audio=new (window.AudioContext||window.webkitAudioContext)();if(audio.state==='suspended')audio.resume();}catch(_){}}if(e.key==='Enter'){e.preventDefault(); const a=els.code.selectionStart,b=els.code.selectionEnd;els.code.setRangeText(' ',a,b,'end');els.code.dispatchEvent(new Event('input',{bubbles:true}));}});
 for(const e of [els.start,els.rhythm])e.addEventListener('change',()=>{stop();lastCompletedTokens=[];prepare()});
-for(const e of [challengeOn,keySig,challengeType])e.addEventListener('change',()=>{stop();refreshKeyInfo();lastCompletedTokens=[];prepare()});
+// Ao desativar a restrição, elimina o erro diatônico e revalida toda a melodia.
+challengeOn.addEventListener('change',()=>{
+ stop();refreshKeyInfo();lastCompletedTokens=[];
+ if(!challengeOn.checked){
+   challengeFeedback.textContent='';
+   challengeFeedback.className='challenge-feedback';
+   els.status.classList.remove('error');
+ }
+ prepare();
+});
+for(const e of [keySig,challengeType])e.addEventListener('change',()=>{stop();refreshKeyInfo();lastCompletedTokens=[];prepare()});
 document.getElementById('newChallenge').addEventListener('click',()=>{
  stop();challengeOn.checked=true;els.code.value='';lastCompletedTokens=[];
  const candidates=[...els.start.options].filter(o=>allowedNote(JSON.parse(o.value)) && JSON.parse(o.value).midi>=57 && JSON.parse(o.value).midi<=72);
