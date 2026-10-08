@@ -44,6 +44,16 @@ function score(file){
   a.run('waits=[]');
   console.log('OK '+title+': every pitch, duration, onset and pause matches MusicXML.');
  }
+ const rhythmApp=app(false);
+ rhythmApp.get('rhythm').value='32';rhythmApp.get('rhythm').dispatchEvent({type:'change'});
+ assert.equal(rhythmApp.get('song').value,'cravo');
+ assert.deepEqual(JSON.parse(rhythmApp.run('JSON.stringify(melody.map(n=>({letter:n.letter,alt:n.alt,octave:n.octave,midi:n.midi,dur:n.dur,start:n.start})))')),score('o-cravo-brigou-com-a-rosa.musicxml').notes);
+ const cravoCode=rhythmApp.get('code').value;
+ rhythmApp.get('rhythm').value='0';rhythmApp.get('rhythm').dispatchEvent({type:'change'});
+ assert.equal(rhythmApp.get('code').value,cravoCode);assert.equal(rhythmApp.get('song').value,'cravo');
+ rhythmApp.get('rhythm').value='31';rhythmApp.get('rhythm').dispatchEvent({type:'change'});assert.equal(rhythmApp.get('song').value,'marcha');
+ rhythmApp.get('rhythm').value='30';rhythmApp.get('rhythm').dispatchEvent({type:'change'});assert.equal(rhythmApp.get('song').value,'ode');
+ console.log('OK named rhythm options load their matching melody; generic patterns preserve notes.');
  a.run("loadSong('ode')");assert.equal(a.run('melody.length'),15);
  assert.match(a.get('demoContext').textContent,/Ode à Alegria/);
  a.input('a2ma ');assert.equal(a.get('song').value,'');assert.equal(a.get('demoContext').textContent,'');

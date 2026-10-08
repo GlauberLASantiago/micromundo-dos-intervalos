@@ -50,7 +50,7 @@ O aplicativo oferece:
 - Controle de andamento.
 - Execução completa ou passo a passo.
 - Demonstração inicial com “Marcha Soldado”.
-- Seletor de músicas com “Marcha Soldado”, “O Cravo Brigou com a Rosa” e “Ode à Alegria”.
+- Seletor de músicas com “Marcha Soldado”, “O Cravo Brigou com a Rosa” e “Ode à Alegria”. As opções com esses nomes no seletor de ritmos também carregam a melodia correspondente; os padrões genéricos preservam as notas.
 - Notas, durações e pausas das duas cantigas preservadas a partir dos MusicXML fornecidos.
 - Desafios de composição utilizando notas diatônicas de diferentes armaduras de clave.
 - Verificação automática dos intervalos produzidos.
