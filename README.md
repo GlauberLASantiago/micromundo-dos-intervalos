@@ -1,134 +1,162 @@
 # 🐢 Tartaruga Musical — Micromundo dos Intervalos
 
-**Um ambiente interativo para explorar, construir e compreender melodias por meio de intervalos musicais.**
+**Um ambiente para explorar, criar e compreender melodias por meio de intervalos musicais.**
+
+[Acesse o aplicativo](https://glauberlasantiago.github.io/micromundo-dos-intervalos/)
 
 ## Sobre o aplicativo
 
-O **Tartaruga Musical — Micromundo dos Intervalos** é um recurso educacional desenvolvido para apoiar o ensino e a aprendizagem de música por meio da experimentação, da criação melódica e da investigação de relações intervalares.
+O Tartaruga Musical é um recurso educacional para o ensino e a aprendizagem de música por meio da experimentação e da criação melódica. Inspirado nos micromundos de Seymour Papert e na linguagem LOGO, permite construir sequências musicais com comandos de intervalos.
 
-Inspirado na ideia de *micromundos* de Seymour Papert e na linguagem de programação LOGO, o aplicativo apresenta um ambiente no qual o estudante constrói melodias utilizando comandos simples que representam intervalos musicais.
+Uma tartaruga percorre o caminho entre as notas enquanto o aplicativo reproduz a melodia. O estudante pode relacionar comandos, alturas sonoras, contornos visuais e ritmo, modificar suas escolhas e comparar os resultados.
 
-Uma tartaruga percorre visualmente o caminho entre as notas, enquanto o aplicativo reproduz os sons correspondentes. Dessa maneira, o estudante pode relacionar os comandos digitados, os intervalos musicais, a representação gráfica do movimento melódico e a percepção auditiva.
+## Como utilizar
 
-O objetivo não é apenas identificar intervalos, mas compreender seu funcionamento por meio da construção e da transformação de sequências musicais.
+O aplicativo funciona em navegadores modernos, em computadores e dispositivos móveis. Acesse o link acima ou abra o arquivo `index.html` no navegador.
 
-## Como funciona
+1. Escolha uma música de demonstração, um contorno ou uma nota inicial para criar sua própria melodia.
+2. Na caixa **Escreva os intervalos**, digite os comandos separados por espaços.
+3. Observe as notas, os pontos e a linha do gráfico. Cada comando completo atualiza a sequência e toca a nota acrescentada.
+4. Use **Tocar melodia** para ouvir toda a sequência ou **Próxima nota** para avançar passo a passo.
+5. Experimente outro ritmo, ajuste o andamento e a reverberação ou selecione uma missão musical.
+6. Para registrar a atividade, preencha o nome do aluno abaixo da caixa de intervalos e gere o relatório em PDF.
 
-O usuário escolhe uma nota inicial e digita os intervalos que deseja executar, utilizando códigos abreviados.
+A reprodução usa a Web Audio API e pode exigir uma interação inicial para habilitar o áudio no navegador.
 
-Por exemplo, partindo da nota **Dó4**, a sequência:
+## Comandos de intervalos
 
-`a2ma a2ma a2me`
+Cada comando parte da nota anterior. Por exemplo, começando em **Dó4**:
 
-Produz as notas:
+```text
+a2ma a2ma a2me
+```
 
-**Dó – Ré – Mi – Fá**
+Produz **Dó4 → Ré4 → Mi4 → Fá4**.
 
-Os comandos representam:
+| Código | Significado |
+| --- | --- |
+| `1j` | Primeira justa: repete a nota |
+| `a2ma` | Segunda maior ascendente |
+| `a2me` | Segunda menor ascendente |
+| `d3me` | Terça menor descendente |
+| `a5j` | Quinta justa ascendente |
+| `a1aum` | Primeira aumentada ascendente |
+| `d1aum` | Primeira aumentada descendente |
 
-- `1j` — primeira justa (repetição da nota). Os atalhos `u` e `=` e as formas `a1j` e `d1j` são aceitos e convertidos no campo para `1j`.
-- `a2ma` — segunda maior ascendente.
-- `a2me` — segunda menor ascendente.
-- `d3me` — terça menor descendente.
-- `a5j` — quinta justa ascendente.
-- `a1aum` — primeira aumentada ascendente.
+`a` indica movimento ascendente e `d`, descendente. As qualidades são `ma` (maior), `me` (menor), `j` (justo), `aum` (aumentado) e `dim` (diminuto). São aceitos intervalos simples e compostos até a 22ª, incluindo `a9ma`, `d10me` e `a15j`.
 
-Cada novo intervalo é calculado a partir da nota anterior, permitindo construir melodias progressivamente.
+Os atalhos `u`, `=` e as formas `a1j` e `d1j` são convertidos para `1j` no campo de texto. As primeiras aumentadas mantêm seus comandos direcionais.
 
-Os comandos são separados por espaços. Ao completar um comando, o aplicativo atualiza a representação musical e reproduz a nota correspondente.
+O aplicativo preserva a grafia musical: Ré♯ e Mi♭ podem ter o mesmo som no temperamento igual, mas continuam sendo notas escritas de formas diferentes. Quando notas consecutivas têm a mesma altura e o mesmo nome, o gráfico identifica apenas a primeira delas.
 
-## Recursos disponíveis
+## Músicas de demonstração
 
-O aplicativo oferece:
+| Música | Nota inicial | Observações |
+| --- | --- | --- |
+| Marcha Soldado | Sol4 | Música inicial do aplicativo |
+| O Cravo Brigou com a Rosa | Fá4 | Si♭ maior, um tom abaixo do MusicXML de referência |
+| Ode à Alegria | Fá♯4 | Tema da Nona Sinfonia de Beethoven |
 
-- Construção de melodias por intervalos ascendentes e descendentes.
-- Suporte a intervalos simples e compostos, até a 22ª.
-- Preservação da grafia enarmônica, distinguindo, por exemplo, Ré♯ de Mi♭.
-- Reprodução sonora automática durante a digitação.
-- Controle de reverberação de 0% a 100%, inicialmente em 25%, ajustável durante a reprodução.
-- Representação gráfica do percurso melódico.
-- Tartaruga animada que se desloca entre as notas.
-- Trinta padrões rítmicos gerais e seis espaçamentos: Uniforme, Quadrática, Logarítmica, Cossenoidal, Fibonacci (intervalos) e Aleatória (exemplo fixo). A troca altera apenas os tempos, preservando as notas e o código.
-- Controle de andamento.
-- Execução completa ou passo a passo.
-- Demonstração inicial com “Marcha Soldado”.
-- Seletor de músicas com “Marcha Soldado”, “O Cravo Brigou com a Rosa” e “Ode à Alegria”. O seletor de ritmos contém padrões gerais e espaçamentos, sem carregar músicas.
-- Notas e pausas das duas cantigas importadas dos MusicXML fornecidos; os tempos entre as notas seguem o espaçamento escolhido. “O Cravo Brigou com a Rosa” é apresentado um tom abaixo do original, em Si♭ maior, começando em Fá4; o MusicXML de referência permanece na tonalidade original.
-- Desafios de composição utilizando notas diatônicas de diferentes armaduras de clave.
-- Verificação automática dos intervalos produzidos.
-- Avisos visuais e sonoros quando uma nota não respeita as condições do desafio.
+Ao carregar uma dessas músicas, seu **ritmo original** é selecionado automaticamente. Marcha Soldado e O Cravo Brigou com a Rosa preservam as durações e pausas dos arquivos MusicXML fornecidos. Ode à Alegria mantém o ritmo original da demonstração.
 
-## Desafios musicais
-
-Além da exploração livre, o aplicativo permite realizar desafios de construção melódica.
-
-O estudante pode selecionar uma armadura de clave e criar melodias utilizando exclusivamente as notas pertencentes à coleção diatônica correspondente.
-
-As missões exigem exatamente 4 ou 8 notas, contando a nota inicial. Na missão de retorno, a oitava e última nota deve coincidir com a inicial em grafia e oitava. Quantidades maiores não concluem a missão.
-
-A restrição diatônica considera a grafia da armadura, e não apenas a equivalência sonora entre notas enarmônicas.
-
-Comandos completos são validados imediatamente. Prefixos ainda em edição aguardam sua conclusão; espaço, Enter, saída do campo ou reprodução finalizam a validação. Quando um comando é inválido, o aplicativo indica o primeiro erro e preserva as notas válidas anteriores no gráfico. Com a restrição ativada, comandos inválidos digitados ou colados são removidos automaticamente, mantendo e reavaliando os demais comandos. O aviso sonoro ocorre uma vez por tentativa recusada. Uma alteração da armadura ou da nota inicial apenas revalida o texto existente, permitindo ajustá-lo sem apagar a composição. Tocar e avançar uma nota verificam todo o texto antes de reproduzir a melodia.
-
-Essas restrições funcionam como elementos para a investigação musical, incentivando o estudante a experimentar diferentes soluções.
-
-## Fundamentação pedagógica
-
-A proposta inspira-se no **construcionismo de Seymour Papert**, especialmente em suas ideias sobre micromundos computacionais e aprendizagem pela construção de objetos significativos.
-
-Na tradição da linguagem LOGO, o estudante utiliza comandos para controlar uma tartaruga, observa os resultados de suas ações e modifica seus procedimentos a partir da experiência.
-
-No Tartaruga Musical, esse princípio é aplicado ao domínio musical. Os deslocamentos da tartaruga correspondem a relações intervalares, e cada percurso constitui uma construção melódica que pode ser ouvida, visualizada, modificada e investigada.
-
-O ambiente procura favorecer uma aprendizagem baseada na exploração, na formulação de hipóteses e na resolução de problemas musicais. O erro não é tratado apenas como uma resposta incorreta, mas como uma oportunidade para examinar relações entre notas, intervalos e regras musicais.
-
-O aplicativo pode ser utilizado em atividades de percepção musical, teoria musical, criação melódica, composição, formação de professores e introdução ao pensamento computacional aplicado à música.
-
-## Utilização
-
-O aplicativo funciona diretamente em navegadores modernos, em computadores ou dispositivos móveis, sem necessidade de instalação.
-
-Para utilizá-lo:
-
-1. Abra o arquivo HTML no navegador.
-2. Escolha a nota inicial.
-3. Selecione um padrão rítmico e ajuste o andamento.
-4. Digite os intervalos, separando os comandos por espaços.
-5. Observe o deslocamento da tartaruga e escute os resultados.
-6. Experimente modificar a sequência, utilizar outras notas iniciais ou realizar os desafios disponíveis.
-
-A reprodução sonora utiliza recursos de áudio do próprio navegador. Algumas funcionalidades podem exigir uma interação inicial do usuário para habilitar o som.
-
-## Desenvolvimento
-
-O Tartaruga Musical integra um conjunto de iniciativas de desenvolvimento de recursos educacionais voltados à experimentação, à criação e à investigação de práticas pedagógicas mediadas por tecnologias digitais, especialmente no campo
-
-## Verificação da lógica
-
-Com Node.js instalado, execute `node tests/challenges.cjs`, `node tests/fm.cjs`, `node tests/songs.cjs` `node tests/contours.cjs` e `node tests/spacing.cjs`. Os testes exercitam a validação, as missões e os eventos do aplicativo em um ambiente simulado; não verificam a reprodução audível no navegador.
+A opção **Ritmo original da música** recupera essas durações após experimentar outros padrões. As referências a Ode à Alegria aparecem apenas quando essa melodia está sendo exibida. O arquivo `o-cravo-brigou-com-a-rosa.musicxml` permanece na tonalidade original como referência.
 
 ## Contornos de paisagens e objetos
 
-O seletor inclui Montanhas, Vale entre montanhas, Ilha, Prédios, Castelo, Dunas, Ponte em arco e Veleiro. Cada exemplo apresenta uma prévia da silhueta usada para criar a melodia. Há contornos diatônicos em Dó maior e outros cromáticos.
+O seletor de demonstrações inclui **Montanhas, Vale entre montanhas, Ilha, Prédios, Castelo, Dunas, Ponte em arco e Veleiro**, com prévia da silhueta usada para gerar cada melodia.
 
-As silhuetas são amostradas e convertidas em alturas. Amostras consecutivas com a mesma altura são reunidas em uma única nota, sem comandos de repetição. A largura do trecho é preservada na duração dessa nota; o padrão rítmico escolhido ajusta essas durações.
+Há contornos diatônicos em Dó maior e contornos cromáticos. As silhuetas são amostradas e convertidas em alturas. Amostras consecutivas na mesma altura são reunidas em uma única nota mais longa, preservando a largura do trecho. O ritmo escolhido ajusta essas durações.
 
-## Ritmos e espaçamentos
+## Ritmos, andamento e som
 
-Os 30 padrões rítmicos gerais foram preservados. Não há opções de ritmo que carreguem músicas ou funções. Ao final do menu estão Uniforme, Quadrática, Logarítmica, Cossenoidal, Fibonacci (intervalos) e Aleatória (exemplo fixo). Todas as opções alteram apenas os tempos, preservando as notas escritas e a nota inicial.
+Há **30 padrões rítmicos gerais**, além dos seguintes espaçamentos:
 
-Uniforme usa meio pulso por nota. Quadrática e Logarítmica aumentam os espaçamentos ao longo da sequência, de 0,25 a 1,25 pulsos; Cossenoidal varia suavemente entre esses limites. Fibonacci repete o ciclo 1, 1, 2, 3, 5, 8, 13, 21 dividido por 8. Aleatória usa sempre a mesma sequência determinística. Nos contornos, esses valores são multiplicados pela largura do trecho agrupado.
+- **Uniforme:** meio pulso por nota.
+- **Quadrática:** espaçamentos crescentes de 0,25 a 1,25 pulsos.
+- **Logarítmica:** espaçamentos crescentes entre os mesmos limites, com outro perfil de crescimento.
+- **Cossenoidal:** variação suave entre 0,25 e 1,25 pulsos.
+- **Fibonacci (intervalos):** ciclo 1, 1, 2, 3, 5, 8, 13, 21, dividido por 8.
+- **Aleatória (exemplo fixo):** sequência determinística, igual a cada aplicação.
 
-## Missões de escalas e acordes
+A mudança de ritmo altera os tempos e preserva as notas, os comandos e a nota inicial. Nos contornos, as durações também consideram a largura dos trechos agrupados. O painel de ritmo pode ser expandido para consultar os espaçamentos em pulsos.
 
-Há escalas maiores e menores naturais ascendentes e descendentes, incluindo a oitava final. Os acordes Xmaj7, X7, Xm7, Xm7(b5), Xdim7, Xm(maj7) e X6 são construídos como arpejos ascendentes a partir da nota inicial escolhida. A avaliação confere quantidade, alturas e grafia dos graus. A restrição pela armadura é opcional e independente dessas missões. Começar novo desafio preserva a nota inicial nessas atividades.
+O andamento é ajustável entre **40 e 220 BPM**. O som utiliza síntese FM com dois operadores senoidais e envelopes. A **reverberação** varia de 0% a 100%, começa em 25% e pode ser ajustada durante a reprodução.
+
+## Missões musicais
+
+Os controles **Armadura / tonalidade** e **Missão** aparecem um abaixo do outro.
+
+As atividades incluem exploração diatônica, construção de exatamente **4 ou 8 notas**, contando a inicial, e criação de **8 notas com retorno à inicial**. No retorno, a última nota deve coincidir com a primeira em altura, grafia e oitava.
+
+Também estão disponíveis:
+
+- Escala maior ascendente e descendente.
+- Escala menor natural ascendente e descendente.
+- **X7M ou Xmaj7**.
+- **X7**.
+- **Xm7**.
+- **Xm7(b5)**.
+- **Xdim7**.
+- **Xm(7M) ou Xm(maj7)**.
+- **X6**.
+
+**X representa a nota inicial escolhida.** As escalas incluem a oitava final. Os acordes são construídos como arpejos ascendentes: fundamental, terça, quinta e sétima ou sexta. A avaliação confere quantidade de notas, alturas e grafia dos graus. **Começar novo desafio** preserva a nota inicial nas missões de escalas e acordes.
+
+### Restrição pela armadura de clave
+
+A restrição é opcional e independente das novas missões. Alguns acordes exigem alterações fora da armadura escolhida. Com a restrição ativada, a grafia deve corresponder à coleção diatônica: uma nota enarmônica escrita de outra forma não é aceita.
+
+Comandos completos são validados imediatamente; prefixos ainda em edição aguardam sua conclusão. Com a restrição ativada, comandos inválidos digitados ou colados são removidos, e os demais são reavaliados. O aplicativo mostra o erro e emite um aviso sonoro uma vez por tentativa recusada.
+
+Alterar a armadura ou a nota inicial revalida o texto existente, permitindo corrigir a composição. A reprodução completa e o avanço por notas verificam a validade dos comandos antes de tocar.
 
 ## Relatório em PDF
 
-Preencha o nome do aluno e clique em **Gerar relatório em PDF**. Na janela de impressão do navegador, selecione **Salvar como PDF**. O relatório contém apenas o título, o subtítulo, o nome do aluno, a data e o horário, a melodia, a nota inicial, a restrição pela armadura, a tonalidade, a missão e o gráfico da melodia. A data e o horário usam America/Sao_Paulo. O rodapé traz o nome e o link do aplicativo. O relatório é preparado no navegador, sem enviar o nome do aluno a um servidor.
+Abaixo da caixa de intervalos estão **Nome do aluno** e **Gerar relatório em PDF**. Preencha o nome, clique no botão e selecione **Salvar como PDF** na janela de impressão do navegador.
 
-Execute também `node tests/missions-report.cjs` para conferir as novas missões e o conteúdo do relatório. Esses testes não verificam o diálogo de impressão nem a aparência do PDF produzido pelo navegador.
+O relatório contém apenas:
 
-## Ritmo original das músicas
+- Título **Micromundo dos intervalos** e subtítulo **Relatório da atividade musical**.
+- Aluno e data e horário, no fuso **America/Sao_Paulo**.
+- Melodia e nota inicial.
+- Restrição pela armadura e armadura / tonalidade.
+- Missão.
+- Gráfico da melodia.
+- Rodapé com **Desenvolvido com o app Micromundo dos intervalos** e o link do aplicativo.
 
-Marcha Soldado, O Cravo Brigou com a Rosa e Ode à Alegria carregam automaticamente suas durações originais. As duas primeiras preservam as durações e pausas dos arquivos MusicXML; Ode mantém o padrão original da demonstração. A opção Ritmo original da música permite recuperar essas durações após experimentar outros ritmos, sem alterar as notas.
+O layout é preparado para uma página A4, com o rodapé na parte inferior. O relatório é montado no navegador, sem enviar o nome do aluno a um servidor.
+
+## Fundamentação pedagógica
+
+Abaixo da caixa de intervalos há um acordeão **Fundamentação pedagógica**, inicialmente fechado, com o texto completo sobre a proposta educativa do aplicativo.
+
+O ambiente inspira-se no construcionismo de Seymour Papert: o estudante constrói um objeto musical, escuta e observa seus resultados, modifica os comandos e investiga relações. O erro pode apoiar a reflexão sobre intervalos, notas e regras musicais.
+
+O aplicativo pode apoiar atividades de percepção, teoria musical, criação melódica, composição e formação de professores. A mediação docente, as perguntas propostas e as oportunidades de compartilhar e discutir as produções são importantes para a aprendizagem.
+
+## Desenvolvimento e verificação
+
+O aplicativo é uma página HTML com CSS e JavaScript incorporados, sem etapa de compilação. Os arquivos MusicXML são referências das cantigas; não precisam ser carregados pelo navegador para executar o app.
+
+Com Node.js instalado, execute:
+
+```sh
+node tests/challenges.cjs
+node tests/fm.cjs
+node tests/songs.cjs
+node tests/contours.cjs
+node tests/spacing.cjs
+node tests/missions-report.cjs
+```
+
+Os testes verificam comandos, validação, missões, durações originais das músicas, contornos, espaçamentos, configuração do áudio e conteúdo do relatório em um ambiente simulado. A reprodução audível, o diálogo de impressão e a aparência final do PDF precisam ser conferidos no navegador.
+
+## Créditos
+
+**Desenvolvimento:** Professor Dr. Glauber Santiago — Departamento de Artes e Comunicação (DAC/UFSCar).
+
+**Apoio:** [Grupo de Pesquisa Horizonte](https://grupohorizonte.ufscar.br/).
+
+**Website do docente:** [Glauber Santiago](https://servidores.ufscar.br/glauber/).
+
+**Aplicativo:** [Micromundo dos intervalos](https://glauberlasantiago.github.io/micromundo-dos-intervalos/).
