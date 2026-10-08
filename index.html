@@ -244,7 +244,7 @@ function draw(){
   const tx=X(position.time),ty=Y(position.midi);
   ctx.save();ctx.shadowColor='rgba(67,52,28,.25)';ctx.shadowBlur=8;
   ctx.font='54px "Apple Color Emoji","Segoe UI Emoji",sans-serif';
-  ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('🐢',tx,ty);
+  ctx.textAlign='center';ctx.textBaseline='middle';ctx.translate(tx,ty);ctx.scale(-1,1);ctx.fillText('🐢',0,0);
   ctx.restore();
  }
  els.notes.innerHTML=all.map((n,i)=>`<strong>${i?i+'. ':''}${name(n)}</strong>${i?' ('+n.interval+')':''}`).join(' → ')
